@@ -12,7 +12,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const redirectToLoginPage = () => {
-    navigate("/login");
+    navigate("/auth");
   };
 
   return (
