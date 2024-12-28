@@ -1,37 +1,100 @@
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import { z } from "zod";
 import auth from "../assets/images/auth.webp";
+import { useLoginMutation } from "../redux/features/auth/authApi";
+import { setUser } from "../redux/features/auth/authSlice";
+import { useAppDispatch } from "../redux/hooks";
+import { verifyToken } from "../utils/verifyToken";
+
+const loginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
+});
+
+const registerSchema = z.object({
+  username: z.string().min(2, "Username must be at least 2 characters long"),
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
+});
+
+type LoginForm = z.infer<typeof loginSchema>;
+type RegisterForm = z.infer<typeof registerSchema>;
 
 export default function AuthLayout() {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
-  const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
-    username: "",
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const [login] = useLoginMutation();
+  const dispatch = useAppDispatch();
+
+  const {
+    register: loginRegister,
+    handleSubmit: loginHandleSubmit,
+    formState: { errors: loginErrors },
+    setValue: setLoginValue,
+  } = useForm<LoginForm>({
+    resolver: zodResolver(loginSchema),
   });
 
-  const navigate = useNavigate();
+  const {
+    register: registerRegister,
+    handleSubmit: registerHandleSubmit,
+    formState: { errors: registerErrors },
+    setValue: setRegisterValue,
+  } = useForm<RegisterForm>({
+    resolver: zodResolver(registerSchema),
+  });
 
   const handleAutofill = (role: string) => {
-    if (role === "user") {
-      setCredentials({
-        email: "user@example.com",
-        password: "userpassword",
-        username: "user",
-      });
-    } else if (role === "admin") {
-      setCredentials({
-        email: "admin@example.com",
-        password: "adminpassword",
-        username: "admin",
-      });
+    if (isLogin) {
+      setLoginValue("email", `${role}101@gmail.com`);
+      setLoginValue("password", `${role}12345`);
+    } else {
+      setRegisterValue("username", role);
+      setRegisterValue("email", `${role}101@gmail.com`);
+      setRegisterValue("password", `${role}@gmail.com`);
     }
   };
 
-  
+  const handleModeSwitch = (loginMode: boolean) => {
+    setIsLogin(loginMode);
+    if (loginMode) {
+      setLoginValue("email", "");
+      setLoginValue("password", "");
+    } else {
+      setRegisterValue("username", "");
+      setRegisterValue("email", "");
+      setRegisterValue("password", "");
+    }
+  };
+
+  const onSubmitLogin = async (data: LoginForm) => {
+    setLoading(true);
+    try {
+      const result = await login(data).unwrap();
+      const user = await verifyToken(result?.data?.accessToken);
+
+      toast.success("Login successfully");
+      dispatch(setUser({ user: user, token: result?.data?.accessToken }));
+      navigate("/");
+    } catch (error: any) {
+      console.log(error);
+      toast.error("Login failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onSubmitRegister = async (data: RegisterForm) => {
+    console.log(data);
+  };
 
   return (
     <div className="min-h-screen w-full flex flex-col lg:flex-row bg-primary text-black">
@@ -41,7 +104,7 @@ export default function AuthLayout() {
           alt="Authentication illustration"
           width={400}
           height={400}
-          className="max-w-md w-full"
+          className="max-w-md w-full hidden lg:block"
         />
       </div>
 
@@ -69,22 +132,24 @@ export default function AuthLayout() {
 
           <div className="flex gap-8 text-lg">
             <button
-              onClick={() => setIsLogin(true)}
+              onClick={() => handleModeSwitch(true)}
               className={`pb-1 transition-colors ${
                 isLogin
                   ? "text-indigo-600 border-b-2 border-indigo-600"
                   : "text-black"
               }`}
+              type="submit"
             >
               Login
             </button>
             <button
-              onClick={() => setIsLogin(false)}
+              onClick={() => handleModeSwitch(false)}
               className={`pb-1 transition-colors ${
                 !isLogin
                   ? "text-indigo-600 border-b-2 border-indigo-600"
                   : "text-black"
               }`}
+              type="submit"
             >
               Register
             </button>
@@ -95,19 +160,27 @@ export default function AuthLayout() {
               : "Enter your information to setup a new account."}
           </p>
 
-          <form className="space-y-4">
+          <form
+            onSubmit={
+              isLogin
+                ? loginHandleSubmit(onSubmitLogin)
+                : registerHandleSubmit(onSubmitRegister)
+            }
+            className="space-y-4"
+          >
             {!isLogin && (
               <div className="space-y-2">
                 <input
                   type="text"
                   placeholder="Username"
-                  value={credentials.username}
-                  onChange={(e) =>
-                    setCredentials({ ...credentials, username: e.target.value })
-                  }
+                  {...registerRegister("username")}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-indigo-600"
-                  required
                 />
+                {registerErrors.username && (
+                  <p className="text-red-500 text-sm">
+                    {registerErrors.username.message}
+                  </p>
+                )}
               </div>
             )}
 
@@ -115,13 +188,19 @@ export default function AuthLayout() {
               <input
                 type="email"
                 placeholder="Email Address"
-                value={credentials.email}
-                onChange={(e) =>
-                  setCredentials({ ...credentials, email: e.target.value })
-                }
+                {...(isLogin
+                  ? loginRegister("email")
+                  : registerRegister("email"))}
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-indigo-600"
-                required
               />
+              {(isLogin ? loginErrors.email : registerErrors.email) && (
+                <p className="text-red-500 text-sm">
+                  {
+                    (isLogin ? loginErrors.email : registerErrors.email)
+                      ?.message
+                  }
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -129,15 +208,10 @@ export default function AuthLayout() {
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
-                  value={credentials.password}
-                  onChange={(e) =>
-                    setCredentials({
-                      ...credentials,
-                      password: e.target.value,
-                    })
-                  }
+                  {...(isLogin
+                    ? loginRegister("password")
+                    : registerRegister("password"))}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-indigo-600"
-                  required
                 />
                 <button
                   type="button"
@@ -147,6 +221,14 @@ export default function AuthLayout() {
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
+              {(isLogin ? loginErrors.password : registerErrors.password) && (
+                <p className="text-red-500 text-sm">
+                  {
+                    (isLogin ? loginErrors.password : registerErrors.password)
+                      ?.message
+                  }
+                </p>
+              )}
             </div>
 
             <div className="flex items-center justify-between">
@@ -154,7 +236,7 @@ export default function AuthLayout() {
                 type="submit"
                 className="w-32 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
               >
-                {isLogin ? "Login" : "Register"}
+                {loading ? <p>Loading...</p> : isLogin ? "Login" : "Register"}
               </button>
               {isLogin && (
                 <Link
@@ -168,9 +250,9 @@ export default function AuthLayout() {
           </form>
 
           <div className="flex flex-col items-center mt-4 gap-2">
-          <button
+            <button
               type="button"
-              className="flex items-center justify-center w-full rounded-lg  bg-indigo-600 text-white px-4 py-2 text-sm font-semibold  focus:outline-none"
+              className="flex items-center justify-center w-full rounded-lg bg-indigo-600 text-white px-4 py-2 text-sm font-semibold focus:outline-none"
             >
               <FaGoogle className="mr-2" /> Sign in with Google
             </button>
