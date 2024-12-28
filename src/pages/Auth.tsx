@@ -7,7 +7,10 @@ import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import auth from "../assets/images/auth.webp";
-import { useLoginMutation } from "../redux/features/auth/authApi";
+import {
+  useLoginMutation,
+  useRegisterAUserMutation,
+} from "../redux/features/auth/authApi";
 import { setUser } from "../redux/features/auth/authSlice";
 import { useAppDispatch } from "../redux/hooks";
 import { verifyToken } from "../utils/verifyToken";
@@ -18,7 +21,7 @@ const loginSchema = z.object({
 });
 
 const registerSchema = z.object({
-  username: z.string().min(2, "Username must be at least 2 characters long"),
+  name: z.string().min(2, "Username must be at least 2 characters long"),
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters long"),
 });
@@ -33,6 +36,7 @@ export default function AuthLayout() {
   const navigate = useNavigate();
   const [login] = useLoginMutation();
   const dispatch = useAppDispatch();
+  const [registerAUser] = useRegisterAUserMutation();
 
   const {
     register: loginRegister,
@@ -57,7 +61,7 @@ export default function AuthLayout() {
       setLoginValue("email", `${role}101@gmail.com`);
       setLoginValue("password", `${role}12345`);
     } else {
-      setRegisterValue("username", role);
+      setRegisterValue("name", role);
       setRegisterValue("email", `${role}101@gmail.com`);
       setRegisterValue("password", `${role}@gmail.com`);
     }
@@ -69,7 +73,7 @@ export default function AuthLayout() {
       setLoginValue("email", "");
       setLoginValue("password", "");
     } else {
-      setRegisterValue("username", "");
+      setRegisterValue("name", "");
       setRegisterValue("email", "");
       setRegisterValue("password", "");
     }
@@ -84,16 +88,25 @@ export default function AuthLayout() {
       toast.success("Login successfully");
       dispatch(setUser({ user: user, token: result?.data?.accessToken }));
       navigate("/");
-    } catch (error: any) {
-      console.log(error);
-      toast.error("Login failed. Please try again.");
+    } catch (error: any) { 
+      toast.error(error.data.message);
     } finally {
       setLoading(false);
     }
   };
 
   const onSubmitRegister = async (data: RegisterForm) => {
-    console.log(data);
+    setLoading(true);
+    try {
+      const result = await registerAUser(data).unwrap();
+      console.log(result);
+
+      toast.success("Registration  successfully");
+    } catch (error: any) {
+      toast.error(error.data.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -173,12 +186,12 @@ export default function AuthLayout() {
                 <input
                   type="text"
                   placeholder="Username"
-                  {...registerRegister("username")}
+                  {...registerRegister("name")}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-indigo-600"
                 />
-                {registerErrors.username && (
+                {registerErrors.name && (
                   <p className="text-red-500 text-sm">
-                    {registerErrors.username.message}
+                    {registerErrors.name.message}
                   </p>
                 )}
               </div>
