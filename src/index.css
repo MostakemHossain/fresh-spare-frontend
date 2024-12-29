@@ -6,3 +6,16 @@
   padding: 0;
   margin: 0;
 }
+
+.loader {
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: white;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

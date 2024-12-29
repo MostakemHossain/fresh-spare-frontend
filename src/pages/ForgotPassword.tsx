@@ -1,23 +1,43 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useForgotPasswordMutation } from "../redux/features/auth/authApi";
 
 interface ForgotPasswordForm {
   email: string;
 }
 
 const ForgotPassword = () => {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ForgotPasswordForm>();
+  const [forgotPassword] = useForgotPasswordMutation();
 
-  const onSubmit: SubmitHandler<ForgotPasswordForm> = (data) => {
-    console.log(data);
-    
+  const onSubmit: SubmitHandler<ForgotPasswordForm> = async (data) => {
+    setIsLoading(true);
+    try {
+      const result = await forgotPassword(data).unwrap();
+      if (result.success) {
+        toast.success(
+          "Password reset successful. Please check your email for further instructions."
+        );
+        navigate("/verification-otp", { state: data });
+      }
+    } catch (error: any) {
+      toast.error(error.data || "An error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen  bg-gray-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
           Forgot Password
@@ -58,9 +78,12 @@ const ForgotPassword = () => {
 
           <button
             type="submit"
-            className="w-full py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 transition"
+            className={`w-full py-3 rounded-md focus:ring-2 focus:ring-indigo-500 transition ${
+              isLoading ? "bg-gray-300" : "bg-primary text-black"
+            }`}
+            disabled={isLoading}
           >
-            Send Reset Link
+            {isLoading ? "Sending..." : "Send Reset Link"}
           </button>
         </form>
 

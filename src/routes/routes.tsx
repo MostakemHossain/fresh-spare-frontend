@@ -5,6 +5,8 @@ import NotFound from "../pages/404Page";
 import AuthLayout from "../pages/Auth";
 import ForgotPassword from "../pages/ForgotPassword";
 import Home from "../pages/Home";
+import OTPVerification from "../pages/OTPVerification";
+import ResetPassword from "../pages/ResetPassword";
 import SearchPage from "../pages/SearchPage";
 
 const router = createBrowserRouter([
@@ -24,6 +26,14 @@ const router = createBrowserRouter([
   {
     path: "/forgot-password",
     element: <ForgotPassword />,
+  },
+  {
+    path: "/verification-otp",
+    element: <OTPVerification />,
+  },
+  {
+    path: "/reset-password",
+    element: <ResetPassword />,
   },
   {
     path: "/auth",
