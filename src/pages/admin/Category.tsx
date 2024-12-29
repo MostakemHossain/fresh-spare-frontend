@@ -153,7 +153,7 @@ const Category = () => {
             <img src={noData} alt="nodata" width={500} height={500} />
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-2">
             {data?.data?.map((category: any) => (
               <div
                 key={category?._id}

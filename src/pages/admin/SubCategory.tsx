@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, Image, Space, Spin, Table, Tooltip } from "antd";
+import { Button, Image, Modal, Space, Spin, Table, Tooltip } from "antd";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import {
   useCreateSubCategoryMutation,
+  useDeleteSubCategoryMutation,
   useGetAllSubCategoryQuery,
 } from "../../redux/features/subCategory/subCategoryApi";
 import UploadSubCategoryModel from "./UploadSubCategoryModel";
@@ -22,6 +23,7 @@ const SubCategory = () => {
   const [openAddSubCategory, setOpenAddSubCategory] = useState(false);
   const [createSubCategory] = useCreateSubCategoryMutation();
   const { data, isLoading } = useGetAllSubCategoryQuery("");
+  const [deleteSubCategory] = useDeleteSubCategoryMutation();
 
   const uploadSubCategory = async (values: {
     name: string;
@@ -47,8 +49,27 @@ const SubCategory = () => {
     toast.success(`Edit SubCategory with ID: ${id}`);
   };
 
-  const handleDelete = (id: string) => {
-    toast.error(`Delete SubCategory with ID: ${id}`);
+  const handleDelete = async (id: string) => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this subcategory?",
+    centered: true,
+      okText: "Yes, Delete",
+      cancelText: "Cancel",
+      onOk: async () => {
+        try {
+          const res = await deleteSubCategory(id).unwrap();
+          console.log(res);
+          if (res.success) {
+            toast.success("SubCategory deleted successfully");
+          }
+        } catch (error: any) {
+          toast.error(error.data.message);
+        }
+      },
+      onCancel: () => {
+        console.log("Delete action canceled");
+      },
+    });
   };
 
   if (isLoading) {
