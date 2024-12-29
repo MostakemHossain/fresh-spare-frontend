@@ -44,7 +44,7 @@ const ResetPassword: React.FC = () => {
   } = useForm<ResetPasswordFormInputs>();
 
   const onSubmit: SubmitHandler<ResetPasswordFormInputs> = async (info) => {
-    setLoading(true); 
+    setLoading(true);
     setData((prev) => ({
       ...prev,
       newPassword: info.newPassword,
@@ -57,9 +57,9 @@ const ResetPassword: React.FC = () => {
         navigate("/auth");
       }
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.data.message);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -142,7 +142,7 @@ const ResetPassword: React.FC = () => {
           <button
             type="submit"
             className="w-full py-3 bg-primary rounded-md focus:ring-2 focus:ring-indigo-500 transition flex items-center justify-center"
-            disabled={loading} 
+            disabled={loading}
           >
             {loading ? (
               <div className="w-6 h-6 border-2 border-t-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -151,7 +151,6 @@ const ResetPassword: React.FC = () => {
             )}
           </button>
         </form>
-       
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ const { Header, Content, Footer } = Layout;
 
 const MainLayout = () => {
   return (
-    <Layout >
+    <Layout style={{ minHeight: "100vh" }}>
       <Sidebar />
       <Layout>
         <Header style={{ padding: 0 }} />

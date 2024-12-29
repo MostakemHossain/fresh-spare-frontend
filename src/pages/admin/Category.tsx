@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Flex, Modal, Spin } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaEdit } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
@@ -11,6 +11,8 @@ import {
   useGetAllCategoryQuery,
   useUpdateCategoryMutation,
 } from "../../redux/features/category/categoryApi";
+import { setAllCategory } from "../../redux/features/product/productSlice";
+import { useAppDispatch } from "../../redux/hooks";
 import UpdateModalCategory from "./UpdateModalCategory";
 import UploadModalCategory from "./UploadModalCategory";
 
@@ -25,6 +27,13 @@ const Category = () => {
   const [updateCategory] = useUpdateCategoryMutation();
   const { data, isLoading } = useGetAllCategoryQuery("");
   const [isUpdating, setIsUpdating] = useState(false);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (data && data.data) {
+      dispatch(setAllCategory(data.data));
+    }
+  }, [data, dispatch]);
 
   if (isLoading) {
     return (
@@ -43,7 +52,6 @@ const Category = () => {
     const formData = new FormData();
     formData.append("data", values.name);
     formData.append("file", values.image);
-    console.log(values.image);
 
     try {
       const response = await createCategory(formData).unwrap();
@@ -140,7 +148,7 @@ const Category = () => {
         />
       )}
       <div className="p-4">
-        {data.data?.length === 0 ? (
+        {data?.data?.length === 0 ? (
           <div className="flex items-center justify-center">
             <img src={noData} alt="nodata" width={500} height={500} />
           </div>

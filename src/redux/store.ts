@@ -1,6 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { baseApi } from "./api/baseApi";
-import authReducer from "./features/auth/authSlice";
 import {
   FLUSH,
   PAUSE,
@@ -12,6 +10,9 @@ import {
   persistStore,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { baseApi } from "./api/baseApi";
+import authReducer from "./features/auth/authSlice";
+import productReducer from "./features/product/productSlice";
 const persistConfig = {
   key: "auth",
   storage,
@@ -22,6 +23,7 @@ export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
     auth: persistedReducer,
+    product: productReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -29,7 +31,6 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }).concat(baseApi.middleware),
-    
 });
 
 export type RootState = ReturnType<typeof store.getState>;

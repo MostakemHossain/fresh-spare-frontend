@@ -23,7 +23,7 @@ const UserMenu = ({ close }: { close: () => void }) => {
         navigation("/");
       }
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.data.message);
     }
   };
 
@@ -31,7 +31,9 @@ const UserMenu = ({ close }: { close: () => void }) => {
     <div>
       <div className="font-semibold">My Account</div>
       <div className="text-sm flex items-center gap-2">
-        <span className="max-w-52 text-ellipsis line-clamp-1">{user?.user?.name}</span>
+        <span className="max-w-52 text-ellipsis line-clamp-1">
+          {user?.user?.name}
+        </span>
         <Link
           to={`/dashboard/${user?.user?.role.toLocaleLowerCase()}/profile`}
           className="hover:text-primary"
