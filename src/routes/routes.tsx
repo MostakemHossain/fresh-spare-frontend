@@ -2,6 +2,12 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import MinimalLayout from "../components/layout/MinimalLayout";
 import NotFound from "../pages/404Page";
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import Category from "../pages/admin/Category";
+import Orders from "../pages/admin/Orders";
+import Product from "../pages/admin/Product";
+import SubCategory from "../pages/admin/SubCategory";
+import UploadProduct from "../pages/admin/UploadProduct";
 import AuthLayout from "../pages/Auth";
 import ForgotPassword from "../pages/ForgotPassword";
 import Home from "../pages/Home";
@@ -64,6 +70,36 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/user/address",
         element: <Address />,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <App />,
+    children: [
+      {
+        path: "/dashboard/admin/dashboard",
+        element: <AdminDashboard />,
+      },
+      {
+        path: "/dashboard/admin/category",
+        element: <Category />,
+      },
+      {
+        path: "/dashboard/admin/sub-category",
+        element: <SubCategory />,
+      },
+      {
+        path: "/dashboard/admin/upload-product",
+        element: <UploadProduct />,
+      },
+      {
+        path: "/dashboard/admin/product",
+        element: <Product />,
+      },
+      {
+        path: "/dashboard/admin/orders",
+        element: <Orders />,
       },
     ],
   },
