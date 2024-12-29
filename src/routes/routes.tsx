@@ -6,9 +6,12 @@ import AuthLayout from "../pages/Auth";
 import ForgotPassword from "../pages/ForgotPassword";
 import Home from "../pages/Home";
 import OTPVerification from "../pages/OTPVerification";
+import Profile from "../pages/Profile";
 import ResetPassword from "../pages/ResetPassword";
 import SearchPage from "../pages/SearchPage";
 import UserMenuMobile from "../pages/UserMenuMobile";
+import Address from "../pages/users/Address";
+import MyOrder from "../pages/users/MyOrder";
 
 const router = createBrowserRouter([
   {
@@ -47,8 +50,22 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/user",
+    path: "/dashboard",
     element: <App />,
+    children: [
+      {
+        path: "/dashboard/user/profile",
+        element: <Profile />,
+      },
+      {
+        path: "/dashboard/user/my-orders",
+        element: <MyOrder />,
+      },
+      {
+        path: "/dashboard/user/address",
+        element: <Address />,
+      },
+    ],
   },
 
   {
