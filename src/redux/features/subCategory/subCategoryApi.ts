@@ -10,7 +10,14 @@ const subCategoryApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["subCategory"],
     }),
+    getAllSubCategory: builder.query({
+      query: () => ({
+        url: "/sub-category/all",
+        method: "GET",
+      }),
+      providesTags: ["subCategory"],
+    }),
   }),
 });
 
-export const { useCreateSubCategoryMutation } = subCategoryApi;
+export const { useCreateSubCategoryMutation,useGetAllSubCategoryQuery } = subCategoryApi;
