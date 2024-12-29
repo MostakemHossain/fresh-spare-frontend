@@ -23,7 +23,6 @@ const UploadSubCategoryModal = ({
   const allCategory = useAppSelector(
     (state) => state.product.allCategory
   ) as Category[];
-  console.log(allCategory);
 
   const handleFormSubmit = async (values: {
     category: string;

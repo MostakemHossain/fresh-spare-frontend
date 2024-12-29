@@ -1,14 +1,25 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, Image, Modal, Space, Spin, Table, Tooltip } from "antd";
+import {
+  Button,
+  Image,
+  Modal,
+  Space,
+  Spin,
+  Table,
+  Tooltip,
+  message,
+} from "antd";
 import { useState } from "react";
-import toast from "react-hot-toast";
 import {
   useCreateSubCategoryMutation,
   useDeleteSubCategoryMutation,
   useGetAllSubCategoryQuery,
+  useUpdateSubCategoryMutation,
 } from "../../redux/features/subCategory/subCategoryApi";
-import UploadSubCategoryModel from "./UploadSubCategoryModel";
+import UpdateSubCategoryModal from "./UpdateSubCategoryModal";
+import UploadSubCategoryModal from "./UploadSubCategoryModel";
 
 interface SubCategoryType {
   _id: string;
@@ -21,9 +32,13 @@ interface SubCategoryType {
 
 const SubCategory = () => {
   const [openAddSubCategory, setOpenAddSubCategory] = useState(false);
+  const [openUpdateSubCategory, setOpenUpdateSubCategory] = useState(false);
+  const [selectedSubCategory, setSelectedSubCategory] =
+    useState<SubCategoryType | null>(null);
   const [createSubCategory] = useCreateSubCategoryMutation();
   const { data, isLoading } = useGetAllSubCategoryQuery("");
   const [deleteSubCategory] = useDeleteSubCategoryMutation();
+  const [updateSubCategory] = useUpdateSubCategoryMutation();
 
   const uploadSubCategory = async (values: {
     name: string;
@@ -37,22 +52,49 @@ const SubCategory = () => {
     try {
       const res = await createSubCategory(formData).unwrap();
       if (res.success) {
-        toast.success("Sub Category added successfully");
+        message.success("Sub Category added successfully");
         setOpenAddSubCategory(false);
       }
     } catch (error: any) {
-      toast.error(error.message);
+      message.error(error.message);
     }
   };
 
-  const handleEdit = (id: string) => {
-    toast.success(`Edit SubCategory with ID: ${id}`);
+  const handleEdit = (subCategory: SubCategoryType) => {
+    setSelectedSubCategory(subCategory);
+    setOpenUpdateSubCategory(true);
+  };
+
+  const handleUpdate = async (values: {
+    id: string;
+    name: string;
+    image?: File;
+    categories: string[];
+  }) => {
+    const formData = new FormData();
+    formData.append("data", values.name);
+    if (values.image) {
+      formData.append("file", values.image);
+    }
+    formData.append("categories", JSON.stringify(values.categories));
+    try {
+      const res = await updateSubCategory({
+        id: selectedSubCategory?._id,
+        formData: formData,
+      }).unwrap();
+      if (res.success) {
+        message.success("Sub Category updated successfully");
+        setOpenUpdateSubCategory(false);
+      }
+    } catch (error: any) {
+      message.error(error.message);
+    }
   };
 
   const handleDelete = async (id: string) => {
     Modal.confirm({
       title: "Are you sure you want to delete this subcategory?",
-    centered: true,
+      centered: true,
       okText: "Yes, Delete",
       cancelText: "Cancel",
       onOk: async () => {
@@ -60,10 +102,10 @@ const SubCategory = () => {
           const res = await deleteSubCategory(id).unwrap();
           console.log(res);
           if (res.success) {
-            toast.success("SubCategory deleted successfully");
+            message.success("SubCategory deleted successfully");
           }
         } catch (error: any) {
-          toast.error(error.data.message);
+          message.error(error.data.message);
         }
       },
       onCancel: () => {
@@ -115,7 +157,7 @@ const SubCategory = () => {
           <Tooltip title="Edit">
             <Button
               icon={<EditOutlined />}
-              onClick={() => handleEdit(record._id)}
+              onClick={() => handleEdit(record)}
             />
           </Tooltip>
           <Tooltip title="Delete">
@@ -143,8 +185,8 @@ const SubCategory = () => {
           <span className="text-red-500">{data?.data?.length || 0}</span>)
         </h2>
         <button
-          onClick={() => setOpenAddSubCategory(true)}
           className="text-sm border border-primary hover:bg-primary px-4 py-2 rounded-md"
+          onClick={() => setOpenAddSubCategory(true)}
         >
           Add Sub Category
         </button>
@@ -153,14 +195,23 @@ const SubCategory = () => {
         columns={columns}
         dataSource={dataSource}
         pagination={{ pageSize: 5 }}
-        className="mt-4 border"
+        className="mt-4"
         scroll={{ x: "max-content" }}
       />
       {openAddSubCategory && (
-        <UploadSubCategoryModel
+        <UploadSubCategoryModal
           open={openAddSubCategory}
           close={() => setOpenAddSubCategory(false)}
           onSubmit={uploadSubCategory}
+        />
+      )}
+      {openUpdateSubCategory && selectedSubCategory && (
+        <UpdateSubCategoryModal
+          open={openUpdateSubCategory}
+          close={() => setOpenUpdateSubCategory(false)}
+          //@ts-ignore
+          onSubmit={handleUpdate}
+          subCategory={selectedSubCategory}
         />
       )}
     </section>

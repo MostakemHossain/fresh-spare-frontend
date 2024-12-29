@@ -26,7 +26,6 @@ const UpdateModalCategory: React.FC<UpdateModalCategoryProps> = ({
   };
 
   const handleImageChange = (info: any) => {
-    console.log(info.fileList[0].originFileObj);
     if (info.fileList[0]) {
       setImageFile(info.fileList[0].originFileObj);
     }
@@ -38,7 +37,7 @@ const UpdateModalCategory: React.FC<UpdateModalCategoryProps> = ({
       open={open}
       onCancel={close}
       onOk={() => form.submit()}
-      confirmLoading={isLoading} 
+      confirmLoading={isLoading}
     >
       <Form
         form={form}
@@ -69,7 +68,7 @@ const UpdateModalCategory: React.FC<UpdateModalCategoryProps> = ({
                 },
               ]}
               onChange={handleImageChange}
-              beforeUpload={() => false} 
+              beforeUpload={() => false}
             >
               <div>
                 <UploadOutlined />

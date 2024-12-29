@@ -24,6 +24,14 @@ const subCategoryApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["subCategory"],
     }),
+    updateSubCategory: builder.mutation({
+      query: ({ formData, id }) => ({
+        url: `/sub-category/update/${id}`,
+        method: "PUT",
+        body: formData,
+      }),
+      invalidatesTags: ["subCategory"],
+    }),
   }),
 });
 
@@ -31,4 +39,5 @@ export const {
   useCreateSubCategoryMutation,
   useGetAllSubCategoryQuery,
   useDeleteSubCategoryMutation,
+  useUpdateSubCategoryMutation,
 } = subCategoryApi;
