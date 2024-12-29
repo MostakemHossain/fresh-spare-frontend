@@ -1,6 +1,7 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Modal, Upload } from "antd";
+import { Button, Form, Input, Modal, Spin, Upload } from "antd";
 import type { UploadFile } from "antd/lib/upload/interface";
+import { useState } from "react";
 
 const UploadModalCategory = ({
   open,
@@ -12,6 +13,32 @@ const UploadModalCategory = ({
   onSubmit: (data: { name: string; image: File }) => void;
 }) => {
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+
+  const handleFormSubmit = async (values: {
+    category: string;
+    image: UploadFile[];
+  }) => {
+    const fileList = values.image;
+    if (fileList && fileList[0] && fileList[0].originFileObj) {
+      const transformedValues = {
+        name: values.category,
+        image: fileList[0].originFileObj as File,
+      };
+
+      setLoading(true); 
+      try {
+        await onSubmit(transformedValues); 
+      } catch (error) {
+        console.error("Error during submission", error);
+      } finally {
+        setLoading(false); 
+      }
+    } else {
+      console.error("No file found in image field");
+    }
+    form.resetFields();
+  };
 
   return (
     <Modal
@@ -24,31 +51,14 @@ const UploadModalCategory = ({
         </Button>,
         <Button
           key="submit"
-          type="primary"
           onClick={() => form.submit()}
-          className="bg-primary hover:bg-primary-dark"
+          className="bg-primary hover:bg-primary text-black hover:text-black"
         >
-          Submit
+          {loading ? <Spin size="small" /> : "Submit"}
         </Button>,
       ]}
     >
-      <Form
-        form={form}
-        layout="vertical"
-        onFinish={(values: { category: string; image: UploadFile[] }) => {
-          const fileList = values.image;
-          if (fileList && fileList[0] && fileList[0].originFileObj) {
-            const transformedValues = {
-              name: values.category,
-              image: fileList[0].originFileObj as File, // Ensure it's treated as File
-            };
-            onSubmit(transformedValues);
-          } else {
-            console.error("No file found in image field");
-          }
-          form.resetFields();
-        }}
-      >
+      <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
         <Form.Item
           label="Category Name"
           name="category"
@@ -68,7 +78,7 @@ const UploadModalCategory = ({
           <Upload
             name="image"
             listType="picture-card"
-            beforeUpload={() => false} // Prevent auto upload
+            beforeUpload={() => false}
           >
             <div>
               <PlusOutlined />
