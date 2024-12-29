@@ -17,7 +17,19 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
+    updateUserInformation: builder.mutation({
+      query: (formData) => ({
+        url: "/users/update-user",
+        method: "PUT",
+        body: formData,
+      }),
+      invalidatesTags: ["user"],
+    }),
   }),
 });
 
-export const { useGetMyInfoQuery, useUploadAvatarMutation } = userApi;
+export const {
+  useGetMyInfoQuery,
+  useUploadAvatarMutation,
+  useUpdateUserInformationMutation,
+} = userApi;
