@@ -8,12 +8,18 @@ import Home from "../pages/Home";
 import OTPVerification from "../pages/OTPVerification";
 import ResetPassword from "../pages/ResetPassword";
 import SearchPage from "../pages/SearchPage";
+import UserMenuMobile from "../pages/UserMenuMobile";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
-    children: [],
+    children: [
+      {
+        path: "/user",
+        element: <UserMenuMobile />,
+      },
+    ],
   },
   {
     path: "/search",

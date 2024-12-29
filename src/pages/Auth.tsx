@@ -88,7 +88,7 @@ export default function AuthLayout() {
       toast.success("Login successfully");
       dispatch(setUser({ user: user, token: result?.data?.accessToken }));
       navigate("/");
-    } catch (error: any) { 
+    } catch (error: any) {
       toast.error(error.data.message);
     } finally {
       setLoading(false);
