@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "../../api/baseApi";
 
 const productApi = baseApi.injectEndpoints({
@@ -18,7 +19,19 @@ const productApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["product"],
     }),
+    getAllProduct: builder.query({
+      query: (arg: Record<string, any>) => ({
+        url: `/product/all`,
+        method: "GET",
+        params: arg,
+      }),
+      providesTags: ["product"],
+    }),
   }),
 });
 
-export const { useUploadImageMutation,useCreateProductMutation } = productApi;
+export const {
+  useUploadImageMutation,
+  useCreateProductMutation,
+  useGetAllProductQuery,
+} = productApi;

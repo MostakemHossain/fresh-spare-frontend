@@ -90,7 +90,7 @@ const router = createBrowserRouter([
         element: <SubCategory />,
       },
       {
-        path: "/dashboard/admin/upload-product",
+        path: "/dashboard/admin/add-product",
         element: <UploadProduct />,
       },
       {

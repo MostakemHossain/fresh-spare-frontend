@@ -17,8 +17,8 @@ export const adminPaths = [
     element: <Home />,
   },
   {
-    name: "Upload Product",
-    path: "upload-product",
+    name: "Add Product",
+    path: "add-product",
     element: <Home />,
   },
   {
