@@ -33,7 +33,7 @@ const Header = () => {
   };
 
   return (
-    <div className="h-24 lg:h-22 lg:shadow-md sticky top-0 flex flex-col justify-center gap-1">
+    <div className="h-24 lg:h-22  bg-white z-40 lg:shadow-md sticky top-0 flex flex-col justify-center gap-1">
       {!(isMobile && isSearchPage) && (
         <div className="container flex mx-auto items-center px-3 justify-between">
           <div className="h-full">
