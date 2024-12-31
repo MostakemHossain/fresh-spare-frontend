@@ -22,11 +22,10 @@ const ShopByCategory = () => {
   const { data, isLoading } = useGetAllCategoryQuery("");
   const navigate = useNavigate();
 
-  const { data: subCategories, isLoading: isSubCategoriesLoading } =
+  const { data: subCategories } =
     useGetAllSubCategoryQuery("");
 
   const handleRedirectProductListpage = (id: string, cat: string) => {
-    console.log(id, cat);
     // Find subcategory associated with the category ID
     const subcategory = subCategories?.data?.find((sub: SubCategory) => {
       const filterData = sub.category.some((c) => c._id === id);

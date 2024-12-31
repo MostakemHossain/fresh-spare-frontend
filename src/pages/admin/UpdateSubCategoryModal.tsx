@@ -26,7 +26,6 @@ const UpdateSubCategoryModal: React.FC<UpdateSubCategoryModalProps> = ({
   open,
   close,
   onSubmit,
-  isLoading,
   subCategory,
 }) => {
   const [form] = Form.useForm();

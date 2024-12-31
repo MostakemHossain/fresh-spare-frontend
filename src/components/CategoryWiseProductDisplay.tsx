@@ -1,9 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useGetProductByCategoryQuery } from "../redux/features/product/productApi";
+import { useGetAllSubCategoryQuery } from "../redux/features/subCategory/subCategoryApi";
+import { SubCategory } from "../types/product-types";
+import { validURLConvert } from "../utils/validURLConvert";
 import CardLoading from "./CardLoading";
 import CardProduct from "./CardProduct";
 
@@ -12,10 +14,9 @@ interface CategoryWiseProductDisplayProps {
   name: string;
 }
 
-
 interface Product {
   _id: string;
-  [key: string]: any; 
+  [key: string]: any;
 }
 
 const CategoryWiseProductDisplay: React.FC<CategoryWiseProductDisplayProps> = ({
@@ -32,6 +33,26 @@ const CategoryWiseProductDisplay: React.FC<CategoryWiseProductDisplayProps> = ({
     }
   };
 
+  const { data: subCategories } = useGetAllSubCategoryQuery("");
+
+  const handleRedirectProductListpage = () => {
+    const subcategory = subCategories?.data?.find((sub: SubCategory) => {
+      const filterData = sub.category.some((c) => c._id === id);
+      return filterData || null;
+    });
+
+    if (subcategory) {
+      const url = `/${validURLConvert(name)}-${id}/${validURLConvert(
+        subcategory.name
+      )}-${subcategory._id}`;
+      return url;
+    } else {
+      console.error("Subcategory not found for the provided category ID");
+    }
+  };
+
+  const redirectURL = handleRedirectProductListpage();
+
   const handleScrollLeft = () => {
     if (containerRef.current) {
       containerRef.current.scrollLeft -= 200;
@@ -42,7 +63,10 @@ const CategoryWiseProductDisplay: React.FC<CategoryWiseProductDisplayProps> = ({
     <div>
       <div className="container mx-auto p-4 flex items-center justify-between gap-4">
         <h1 className="font-semibold">{name}</h1>
-        <Link className="text-green-600 hover:text-green-400" to="">
+        <Link
+          to={redirectURL || "#"}
+          className="text-green-600 hover:text-green-400"
+        >
           See All
         </Link>
       </div>
@@ -53,7 +77,7 @@ const CategoryWiseProductDisplay: React.FC<CategoryWiseProductDisplayProps> = ({
         >
           {isLoading &&
             loadingCardNumber.map((_, index) => <CardLoading key={index} />)}
-          {data?.data.map((p: Product, index: number) => (
+          {data?.data.map((p: Product) => (
             <CardProduct key={p._id} data={p} />
           ))}
         </div>

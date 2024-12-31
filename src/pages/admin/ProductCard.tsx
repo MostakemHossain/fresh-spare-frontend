@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { IoClose } from "react-icons/io5";
@@ -16,7 +15,6 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
-  const [editOpen, setEditOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteProduct] = useDeleteProductMutation();

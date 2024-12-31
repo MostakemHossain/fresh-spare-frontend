@@ -17,6 +17,12 @@ const Search = () => {
   const rederectToSearchPage = () => {
     navigate("/search");
   };
+
+  const hanadleOnChange = (e) => {
+    const value = e.target.value;
+    const url = `/search?q=${value}`;
+    navigate(url);
+  };
   return (
     <div className="w-full min-w-[300px] group lg:min-w-[420px] h-11 lg:h-12 rounded-lg border overflow-hidden flex items-center text-neutral-500 bg-slate-50 focus-within:border-primary">
       <div>
@@ -82,6 +88,7 @@ const Search = () => {
               type="text"
               autoFocus={true}
               placeholder="Search your daily necessary"
+              onChange={hanadleOnChange}
             />
           </div>
         )}

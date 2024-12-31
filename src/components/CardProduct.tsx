@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
 import { DisplayPriceInDollar } from "../utils/DisplayProductInDoller";
+import { pricewithDiscount } from "../utils/PriceWithDiscount";
 import { validURLConvert } from "../utils/validURLConvert";
 
 const CardProduct = ({ data }: { data: any }) => {
@@ -16,18 +17,35 @@ const CardProduct = ({ data }: { data: any }) => {
           className="w-full h-full object-scale-down lg:scale-125"
         />
       </div>
-      <div className="rounded text-sm w-fit p-[3.5px]  px-2 text-green-600 bg-green-50 ">
-        10 min
+      <div className="flex items-center">
+        <div className="rounded text-sm w-fit p-[3.5px]  px-2 text-green-600 bg-green-50 ">
+          10 min
+        </div>
+        <div>
+          {Boolean(data?.discount) && (
+            <p className="text-green-600 bg-green-100 px-2 w-fit text-xs rounded-full">
+              {data?.discount} % discount
+            </p>
+          )}
+        </div>
       </div>
       <div className="font-medium text-ellipsis line-clamp-2">{data?.name}</div>
-      <div className="w-fit ">{data.unit}</div>
+      <div className="w-fit px-2 lg:px-0 text-sm lg:text-base">{data.unit}</div>
 
-      <div className="flex items-center justify-between gap-3">
-        <div className="font-semibold">{DisplayPriceInDollar(data.price)}</div>
+      <div className="px-2 lg:px-0 flex items-center justify-between gap-1 lg:gap-3">
+        <div className="flex items-center gap-1">
+          <div className="font-semibold">
+            {DisplayPriceInDollar(pricewithDiscount(data.price, data.discount))}
+          </div>
+        </div>
         <div className="">
-          <button className="bg-green-600 hover:bg-green-700  text-white px-4 py-1 rounded">
-            Add
-          </button>
+          {data.stock === 0 ? (
+            <p className="text-red-500 text-sm text-center font-bold">Out of Stock</p>
+          ) : (
+            <button className="bg-green-600 hover:bg-green-700  text-white px-4 py-1 rounded">
+              Add
+            </button>
+          )}
         </div>
       </div>
     </Link>

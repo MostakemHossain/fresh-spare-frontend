@@ -1,23 +1,26 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useParams } from "react-router-dom";
 import CardProduct from "../components/CardProduct";
-import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { useGetProductByCategoryAndSubCategoryMutation } from "../redux/features/product/productApi";
 import { useGetAllSubCategoryQuery } from "../redux/features/subCategory/subCategoryApi";
 
+import {
+  Product,
+  ProductQueryParams,
+  ProductResponse,
+  SubCategory,
+} from "../types/product-types";
 import { validURLConvert } from "../utils/validURLConvert";
-import { Product, ProductQueryParams, ProductResponse, SubCategory } from "../types/product-types";
 
 const ProductListPage = () => {
   const [getProductByCategoryAndSubCategory] =
     useGetProductByCategoryAndSubCategoryMutation();
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
   const [data, setData] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
-  const [totalPage, setTotalPage] = useState(1);
+  const [, setTotalPage] = useState(1);
   const params = useParams<{ category?: string; "sub-category"?: string }>();
   const { data: subCategories } = useGetAllSubCategoryQuery("");
   const [displaySubCategory, setDisplaySubCategory] = useState<SubCategory[]>(
@@ -148,7 +151,6 @@ const ProductListPage = () => {
           </div>
         </div>
       </section>
-      
     </div>
   );
 };
