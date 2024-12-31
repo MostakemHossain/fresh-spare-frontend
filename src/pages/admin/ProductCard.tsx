@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { IoClose } from "react-icons/io5";
+import { useDeleteProductMutation } from "../../redux/features/product/productApi";
+import EditProductModal from "./EditProductModal";
 
 interface ProductCardProps {
   data: {
+    _id: string;
     id: string;
     name: string;
     unit: string;
@@ -14,11 +18,21 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
   const [editOpen, setEditOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [deleteProduct] = useDeleteProductMutation();
 
   const handleDelete = async () => {
-    // Add delete logic
-    setOpenDelete(false);
+    try {
+      const res = await deleteProduct(data._id).unwrap();
+      if (res.success) {
+        toast.success("Product deleted successfully");
+        setOpenDelete(false);
+      }
+    } catch (error) {
+      console.error("Failed to delete the product:", error);
+    }
   };
+  console.log(data);
 
   return (
     <div className="w-36 p-4 bg-white rounded">
@@ -33,7 +47,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
       <p className="text-slate-400">{data?.unit}</p>
       <div className="grid grid-cols-2 gap-3 py-2">
         <button
-          onClick={() => setEditOpen(true)}
+          onClick={() => setEditModalOpen(true)}
           className="border px-1 py-1 text-sm border-green-600 bg-green-100 text-green-800 hover:bg-green-200 rounded"
         >
           Edit
@@ -72,6 +86,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
             </div>
           </div>
         </section>
+      )}
+      {editModalOpen && (
+        <EditProductModal
+          isOpen={editModalOpen}
+          onClose={() => setEditModalOpen(false)}
+          productData={data}
+        />
       )}
     </div>
   );
