@@ -27,6 +27,22 @@ const productApi = baseApi.injectEndpoints({
       }),
       providesTags: ["product"],
     }),
+    getProductByCategory: builder.query({
+      query: (id) => ({
+        url: `/product/get-product-by-category/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["product"],
+    }),
+
+    getProductByCategoryAndSubCategory: builder.mutation({
+      query: (data) => ({
+        url: `/product/get-product-by-category-and-sub-category`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["product"],
+    }),
   }),
 });
 
@@ -34,4 +50,6 @@ export const {
   useUploadImageMutation,
   useCreateProductMutation,
   useGetAllProductQuery,
+  useGetProductByCategoryQuery,
+  useGetProductByCategoryAndSubCategoryMutation,
 } = productApi;

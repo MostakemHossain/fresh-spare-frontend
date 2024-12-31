@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import MinimalLayout from "../components/layout/MinimalLayout";
+import ProductDisplayPage from "../components/ProductDisplayPage";
 import NotFound from "../pages/404Page";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import Category from "../pages/admin/Category";
@@ -12,6 +13,7 @@ import AuthLayout from "../pages/Auth";
 import ForgotPassword from "../pages/ForgotPassword";
 import Home from "../pages/Home";
 import OTPVerification from "../pages/OTPVerification";
+import ProductListPage from "../pages/ProductListPage";
 import Profile from "../pages/Profile";
 import ResetPassword from "../pages/ResetPassword";
 import SearchPage from "../pages/SearchPage";
@@ -29,6 +31,15 @@ const router = createBrowserRouter([
         element: <UserMenuMobile />,
       },
     ],
+  },
+  {
+    path: "product/:product",
+    element: <ProductDisplayPage />,
+  },
+
+  {
+    path: "/:category/:sub-category",
+    element: <ProductListPage />,
   },
   {
     path: "/search",
