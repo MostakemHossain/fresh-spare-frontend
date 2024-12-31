@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
@@ -18,7 +19,7 @@ const Search = () => {
     navigate("/search");
   };
 
-  const hanadleOnChange = (e) => {
+  const hanadleOnChange = (e: { target: { value: any; }; }) => {
     const value = e.target.value;
     const url = `/search?q=${value}`;
     navigate(url);

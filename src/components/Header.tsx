@@ -5,17 +5,26 @@ import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/images/logo.png";
 import useMobile from "../hooks/useMobile";
-import { useAppSelector } from "../redux/hooks";
+import { useGlobalContext } from "../provider/GlobalProvider";
+import { useGetCartItemQuery } from "../redux/features/cart/cartApi";
+import { addCartItem } from "../redux/features/cart/cartSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
+import { DisplayPriceInDollar } from "../utils/DisplayProductInDoller";
 
 const Header = () => {
   const [isMobile] = useMobile();
+  const { totalPrice, totalQty } = useGlobalContext();
   const location = useLocation();
   const isSearchPage = location.pathname === "/search";
   const navigate = useNavigate();
   const user = useAppSelector((state) => state?.auth?.user);
   const [openUserMenu, setOpenUserMenu] = useState(false);
+  const { data } = useGetCartItemQuery("");
+  const dispatch = useAppDispatch();
+  dispatch(addCartItem(data?.data));
+  const cartItem = useAppSelector((state) => state.cart.cart);
 
   const redirectToLoginPage = () => {
     navigate("/auth");
@@ -99,8 +108,16 @@ const Header = () => {
                 <div className="animate-bounce">
                   <BsCart4 size={26} />
                 </div>
-                <div className="font-semibold">
-                  <p>My Cart</p>
+                <div className="font-semibold text-sm">
+                  {cartItem && cartItem[0] ? (
+                    <div>
+                      {" "}
+                      <p>{totalQty} Items</p>
+                      <p>{DisplayPriceInDollar(totalPrice)}</p>
+                    </div>
+                  ) : (
+                    <p>My Cart</p>
+                  )}
                 </div>
               </button>
             </div>

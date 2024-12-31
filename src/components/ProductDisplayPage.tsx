@@ -8,6 +8,7 @@ import img3 from "../assets/images/quality.png";
 import { useGetProductDetailsQuery } from "../redux/features/product/productApi";
 import { DisplayPriceInDollar } from "../utils/DisplayProductInDoller";
 import { pricewithDiscount } from "../utils/PriceWithDiscount";
+import AddToCartButton from "./AddToCartButton";
 import Divider from "./Divider";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -152,7 +153,9 @@ const ProductDisplayPage = () => {
             {data?.data?.stock === 0 ? (
               <p className="text-lg text-red-500 my-2">Out of Stock</p>
             ) : (
-              <div className="my-4">Add To Cart</div>
+              <div className="my-4">
+                <AddToCartButton data={data?.data} />
+              </div>
             )}
             <h2 className="font-semibold">Why shop from Fresh Spare</h2>
             <div>

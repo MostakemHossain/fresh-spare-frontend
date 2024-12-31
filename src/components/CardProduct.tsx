@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import { DisplayPriceInDollar } from "../utils/DisplayProductInDoller";
 import { pricewithDiscount } from "../utils/PriceWithDiscount";
 import { validURLConvert } from "../utils/validURLConvert";
+import AddToCartButton from "./AddToCartButton";
 
 const CardProduct = ({ data }: { data: any }) => {
   const url = `/product/${validURLConvert(data.name)}-${data._id}`;
+
   return (
     <Link
       to={url}
@@ -40,11 +42,11 @@ const CardProduct = ({ data }: { data: any }) => {
         </div>
         <div className="">
           {data.stock === 0 ? (
-            <p className="text-red-500 text-sm text-center font-bold">Out of Stock</p>
+            <p className="text-red-500 text-sm text-center font-bold">
+              Out of Stock
+            </p>
           ) : (
-            <button className="bg-green-600 hover:bg-green-700  text-white px-4 py-1 rounded">
-              Add
-            </button>
+            <AddToCartButton data={data} />
           )}
         </div>
       </div>
