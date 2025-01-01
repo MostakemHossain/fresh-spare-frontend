@@ -22,6 +22,7 @@ import UserMenuMobile from "../pages/UserMenuMobile";
 import Address from "../pages/users/Address";
 import MyOrder from "../pages/users/MyOrder";
 import UserDashboard from "../pages/users/UserDashboard";
+import Success from "../pages/Success";
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
   {
     path: "/reset-password",
     element: <ResetPassword />,
+  },
+  {
+    path: "/success",
+    element: <Success />,
   },
   {
     path: "/auth",

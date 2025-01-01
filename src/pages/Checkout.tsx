@@ -1,33 +1,75 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { loadStripe } from "@stripe/stripe-js";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import AddAddress from "../components/AddAddress";
 import { useGlobalContext } from "../provider/GlobalProvider";
 import { useGetAddressQuery } from "../redux/features/address/addressApi";
+import {
+  useCashOnDeliveryMutation,
+  usePaymentsMutation,
+} from "../redux/features/order/orderApi";
+import { useAppSelector } from "../redux/hooks";
 import { DisplayPriceInDollar } from "../utils/DisplayProductInDoller";
 
 const Checkout = () => {
   const { notDiscountTotalPrice, totalPrice, totalQty } = useGlobalContext();
   const [openAddress, setOpenAddress] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
+  const [selectedAddress, setSelectedAddress] = useState<number | null>(0);
+  const [cashOnDelivery] = useCashOnDeliveryMutation();
+  const cartItemsList = useAppSelector((state) => state.cart.cart);
+  const navigate = useNavigate();
 
   const { data } = useGetAddressQuery("");
+  const [payments] = usePaymentsMutation();
 
-  const handleCashOnDelivery = () => {
+  const handleCashOnDelivery = async () => {
     if (selectedAddress === null) {
-      alert("Please select an address.");
+      toast.error("Please select an address.");
       return;
     }
-    // Implement COD logic
-    console.log("Cash on Delivery selected");
+    const info = {
+      list_items: cartItemsList,
+      totalAmount: totalPrice,
+      subTotalAmount: totalPrice,
+      address_id: data?.data[selectedAddress]?._id,
+    };
+    try {
+      const result = await cashOnDelivery(info).unwrap();
+      if (result.success) {
+        toast.success("Order Confirm successfully");
+        navigate("/success");
+        window.location.reload();
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message);
+    }
   };
 
-  const handleOnlinePayment = () => {
+  const handleOnlinePayment = async () => {
     if (selectedAddress === null) {
-      alert("Please select an address.");
+      toast.error("Please select an address.");
       return;
     }
-    // Implement Online Payment logic
-    console.log("Online Payment selected");
+    const info = {
+      list_items: cartItemsList,
+      totalAmount: totalPrice,
+      subTotalAmount: totalPrice,
+      address_id: data?.data[selectedAddress]?._id,
+    };
+    try {
+      const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLISH_KEY;
+      const stripePromise = await loadStripe(stripePublicKey);
+      const result = await payments(info).unwrap();
+      if (result.success) {
+        //@ts-ignore
+        stripePromise.redirectToCheckout({ sessionId: result.data.id });
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message);
+    }
   };
 
   return (
@@ -55,13 +97,13 @@ const Checkout = () => {
                   className="mt-1"
                 />
                 <div>
-                  <p>{address.address_line}</p>
-                  <p>{address.city}</p>
-                  <p>{address.state}</p>
+                  <p>{address?.address_line}</p>
+                  <p>{address?.city}</p>
+                  <p>{address?.state}</p>
                   <p>
-                    {address.country} - {address.pincode}
+                    {address?.country} - {address?.pincode}
                   </p>
-                  <p>{address.mobile}</p>
+                  <p>{address?.mobile}</p>
                 </div>
               </label>
             ))}

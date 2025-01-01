@@ -121,8 +121,6 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
- 
-
   return (
     <GlobalContext.Provider
       value={{
