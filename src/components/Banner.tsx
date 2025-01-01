@@ -1,5 +1,5 @@
 import banner from "../assets/images/banner (1).jpg";
-import bannerMobile from "../assets/images/banner-mobile (1).jpg";
+import bannerMobile from "../assets/images/bann.avif";
 const Banner = () => {
   return (
     <div className="container mx-auto">

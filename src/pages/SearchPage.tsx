@@ -73,10 +73,10 @@ const SearchPage = () => {
   return (
     <section className="bg-white">
       <div className="container mx-auto p-4">
-        <p className="font-semibold">Search Results: {data?.length}</p>
+        <p className="font-semibold ml-2 lg:ml-0">Search Results: {data?.length}</p>
 
         <InfiniteScroll
-          dataLength={data.length}
+          dataLength={data?.length}
           next={handleFetchMore}
           hasMore={hasMore}
           loader={<h4></h4>}
@@ -84,7 +84,7 @@ const SearchPage = () => {
             <p className="text-center font-semibold py-4">No more results.</p>
           }
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 py-4 gap-4">
+          <div className="grid grid-cols-2 ml-2 lg:ml-0 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 py-4 gap-4">
             {data.map((p, index) => (
               <CardProduct data={p} key={p._id + "searchProduct" + index} />
             ))}
