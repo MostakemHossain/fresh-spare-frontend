@@ -1,4 +1,5 @@
 import { Layout, Menu } from "antd";
+import { Link } from "react-router-dom";
 import { adminPaths } from "../../routes/admin.routes";
 import { userPaths } from "../../routes/user.routes";
 import { sidebarItemsGenerator } from "../../utils/sidebar-items-generator";
@@ -24,7 +25,8 @@ const Sidebar = () => {
   }
   return (
     <Sider breakpoint="lg" collapsedWidth="0">
-      <div
+      <Link
+        to={"/"}
         style={{
           color: "white",
           height: "4rem",
@@ -33,8 +35,10 @@ const Sidebar = () => {
           alignItems: "center",
         }}
       >
-        <h1>FreshSpare</h1>
-      </div>
+        <p className="text-xl font-bold">
+          FRESH <span className="text-pink-500">SPARE</span>
+        </p>
+      </Link>
       <Menu
         theme="dark"
         mode="inline"

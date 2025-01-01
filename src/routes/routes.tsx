@@ -1,28 +1,22 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import MinimalLayout from "../components/layout/MinimalLayout";
+import ProtectedRoute from "../components/layout/ProtectedRoute";
 import ProductDisplayPage from "../components/ProductDisplayPage";
 import NotFound from "../pages/404Page";
-import AdminDashboard from "../pages/admin/AdminDashboard";
-import Category from "../pages/admin/Category";
-import Orders from "../pages/admin/Orders";
-import Product from "../pages/admin/Product";
-import SubCategory from "../pages/admin/SubCategory";
-import UploadProduct from "../pages/admin/UploadProduct";
 import AuthLayout from "../pages/Auth";
 import Checkout from "../pages/Checkout";
 import ForgotPassword from "../pages/ForgotPassword";
 import Home from "../pages/Home";
 import OTPVerification from "../pages/OTPVerification";
 import ProductListPage from "../pages/ProductListPage";
-import Profile from "../pages/Profile";
 import ResetPassword from "../pages/ResetPassword";
 import SearchPage from "../pages/SearchPage";
-import UserMenuMobile from "../pages/UserMenuMobile";
-import Address from "../pages/users/Address";
-import MyOrder from "../pages/users/MyOrder";
-import UserDashboard from "../pages/users/UserDashboard";
 import Success from "../pages/Success";
+import UserMenuMobile from "../pages/UserMenuMobile";
+import { routeGenerator } from "../utils/routes-generator";
+import { adminPaths } from "./admin.routes";
+import { userPaths } from "./user.routes";
 
 const router = createBrowserRouter([
   {
@@ -85,60 +79,22 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/dashboard",
-    element: <App />,
-    children: [
-      {
-        path: "/dashboard/user/profile",
-        element: <Profile />,
-      },
-      {
-        path: "/dashboard/user/my-orders",
-        element: <MyOrder />,
-      },
-      {
-        path: "/dashboard/user/address",
-        element: <Address />,
-      },
-    ],
+    path: "/user",
+    element: (
+      <ProtectedRoute>
+        <App />
+      </ProtectedRoute>
+    ),
+    children: routeGenerator(userPaths),
   },
   {
-    path: "/dashboard",
-    element: <App />,
-    children: [
-      {
-        path: "/dashboard/admin/dashboard",
-        element: <AdminDashboard />,
-      },
-      {
-        path: "/dashboard/user/dashboard",
-        element: <UserDashboard />,
-      },
-      {
-        path: "/dashboard/user/address",
-        element: <Address />,
-      },
-      {
-        path: "/dashboard/admin/category",
-        element: <Category />,
-      },
-      {
-        path: "/dashboard/admin/sub-category",
-        element: <SubCategory />,
-      },
-      {
-        path: "/dashboard/admin/add-product",
-        element: <UploadProduct />,
-      },
-      {
-        path: "/dashboard/admin/product",
-        element: <Product />,
-      },
-      {
-        path: "/dashboard/admin/orders",
-        element: <Orders />,
-      },
-    ],
+    path: "/admin",
+    element: (
+      <>
+        <App />
+      </>
+    ),
+    children: routeGenerator(adminPaths),
   },
 
   {

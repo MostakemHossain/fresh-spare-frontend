@@ -1,5 +1,9 @@
 import AdminDashboard from "../pages/admin/AdminDashboard";
-import Home from "../pages/Home";
+import Category from "../pages/admin/Category";
+import Orders from "../pages/admin/Orders";
+import Product from "../pages/admin/Product";
+import SubCategory from "../pages/admin/SubCategory";
+import UploadProduct from "../pages/admin/UploadProduct";
 
 export const adminPaths = [
   {
@@ -10,26 +14,26 @@ export const adminPaths = [
   {
     name: "Category",
     path: "category",
-    element: <Home />,
+    element: <Category />,
   },
   {
     name: "Sub Category",
     path: "sub-category",
-    element: <Home />,
+    element: <SubCategory />,
   },
   {
     name: "Add Product",
     path: "add-product",
-    element: <Home />,
+    element: <UploadProduct />,
   },
   {
     name: "Product",
     path: "product",
-    element: <Home />,
+    element: <Product />,
   },
   {
     name: "Orders",
     path: "orders",
-    element: <Home />,
+    element: <Orders />,
   },
 ];
