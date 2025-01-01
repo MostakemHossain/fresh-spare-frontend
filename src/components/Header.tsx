@@ -9,9 +9,10 @@ import { useGlobalContext } from "../provider/GlobalProvider";
 import { useGetCartItemQuery } from "../redux/features/cart/cartApi";
 import { addCartItem } from "../redux/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { DisplayPriceInDollar } from "../utils/DisplayProductInDoller";
+import DisplayCartItem from "./DisplayCartItem";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
-import { DisplayPriceInDollar } from "../utils/DisplayProductInDoller";
 
 const Header = () => {
   const [isMobile] = useMobile();
@@ -25,6 +26,7 @@ const Header = () => {
   const dispatch = useAppDispatch();
   dispatch(addCartItem(data?.data));
   const cartItem = useAppSelector((state) => state.cart.cart);
+  const [openCartSection, setOpenCartSection] = useState(false);
 
   const redirectToLoginPage = () => {
     navigate("/auth");
@@ -104,7 +106,10 @@ const Header = () => {
                 </button>
               )}
 
-              <button className="flex items-center gap-2 bg-green-800 hover:bg-green-700 px-3 py-3 rounded text-white">
+              <button
+                onClick={() => setOpenCartSection(true)}
+                className="flex items-center gap-2 bg-green-800 hover:bg-green-700 px-3 py-3 rounded text-white"
+              >
                 <div className="animate-bounce">
                   <BsCart4 size={26} />
                 </div>
@@ -128,6 +133,10 @@ const Header = () => {
       <div className="container mx-auto px-2 lg:hidden">
         <Search />
       </div>
+
+      {openCartSection && (
+        <DisplayCartItem close={() => setOpenCartSection(false)} />
+      )}
     </div>
   );
 };

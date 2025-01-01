@@ -4,6 +4,7 @@ import { HiOutlineExternalLink } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../redux/features/auth/authApi";
 import { setLogout } from "../redux/features/auth/authSlice";
+import { addCartItem } from "../redux/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import Divider from "./Divider";
 
@@ -20,7 +21,10 @@ const UserMenu = ({ close }: { close: () => void }) => {
         close();
         toast.success("Logout successfully");
         dispatch(setLogout());
+        dispatch(addCartItem([]));
+        localStorage.clear();
         navigation("/");
+        window.location.reload();
       }
     } catch (error: any) {
       toast.error(error.data.message);

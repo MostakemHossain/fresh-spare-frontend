@@ -39,9 +39,11 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ data }) => {
     e.stopPropagation();
     try {
       setLoading(true);
-      const res = await addToCart({ data: data._id }).unwrap();
-      if (res.success) {
-        toast.success("Product added to cart successfully");
+      if (data) {
+        const res = await addToCart({ data: data?._id }).unwrap();
+        if (res.success) {
+          toast.success("Product added to cart successfully");
+        }
       }
     } catch (error: any) {
       toast.error(error.data?.message || "Error adding product to cart");
@@ -53,13 +55,15 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ data }) => {
   useEffect(() => {
     if (cartItem) {
       const checkingItem = cartItem?.some(
-        (item) => item.productId._id === data._id
+        (item) => item?.productId?._id === data?._id
       );
       setIsAvailableCart(checkingItem);
     }
 
     if (cartItem) {
-      const product = cartItem?.find((item) => item.productId._id === data._id);
+      const product = cartItem?.find(
+        (item) => item?.productId?._id === data?._id
+      );
       setQty(product?.quantity || 0);
       setCartItemsDetails(product);
     }

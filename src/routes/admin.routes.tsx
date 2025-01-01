@@ -1,10 +1,11 @@
+import AdminDashboard from "../pages/admin/AdminDashboard";
 import Home from "../pages/Home";
 
 export const adminPaths = [
   {
     name: "Dashboard",
     path: "dashboard",
-    element: <Home />,
+    element: <AdminDashboard />,
   },
   {
     name: "Category",

@@ -10,6 +10,7 @@ import Product from "../pages/admin/Product";
 import SubCategory from "../pages/admin/SubCategory";
 import UploadProduct from "../pages/admin/UploadProduct";
 import AuthLayout from "../pages/Auth";
+import Checkout from "../pages/Checkout";
 import ForgotPassword from "../pages/ForgotPassword";
 import Home from "../pages/Home";
 import OTPVerification from "../pages/OTPVerification";
@@ -20,6 +21,7 @@ import SearchPage from "../pages/SearchPage";
 import UserMenuMobile from "../pages/UserMenuMobile";
 import Address from "../pages/users/Address";
 import MyOrder from "../pages/users/MyOrder";
+import UserDashboard from "../pages/users/UserDashboard";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +48,17 @@ const router = createBrowserRouter([
     element: (
       <MinimalLayout>
         <SearchPage />
+      </MinimalLayout>
+    ),
+  },
+
+  {
+    path: "/checkout",
+    element: (
+      <MinimalLayout>
+        <div className="min-h-screen">
+          <Checkout />
+        </div>
       </MinimalLayout>
     ),
   },
@@ -91,6 +104,14 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/admin/dashboard",
         element: <AdminDashboard />,
+      },
+      {
+        path: "/dashboard/user/dashboard",
+        element: <UserDashboard />,
+      },
+      {
+        path: "/dashboard/user/address",
+        element: <Address />,
       },
       {
         path: "/dashboard/admin/category",

@@ -1,12 +1,13 @@
 import Home from "../pages/Home";
 import Address from "../pages/users/Address";
 import MyOrder from "../pages/users/MyOrder";
+import UserDashboard from "../pages/users/UserDashboard";
 
 export const userPaths = [
   {
     name: "Dashboard",
     path: "dashboard",
-    element: <Home />,
+    element: <UserDashboard />,
   },
   {
     name: "My orders",

@@ -7,7 +7,7 @@ import {
   useUpdateCartItemMutation,
 } from "../redux/features/cart/cartApi";
 import { addCartItem } from "../redux/features/cart/cartSlice";
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { pricewithDiscount } from "../utils/PriceWithDiscount";
 
 // Define the type for individual cart items
@@ -46,6 +46,7 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [notDiscountTotalPrice, setNotDiscountTotalPrice] = useState(0);
   const [totalQty, setTotalQty] = useState(0);
+  const user = useAppSelector((state) => state.auth.user);
 
   const { data: cartItem } = useGetCartItemQuery("");
 
@@ -53,27 +54,42 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     if (cartItem?.data) {
       dispatch(addCartItem(cartItem.data));
     }
-  }, [cartItem, dispatch]);
+  }, [cartItem, dispatch, user]);
 
   useEffect(() => {
     if (cartItem?.data) {
       // Calculate total quantity
-      const qty = cartItem.data.reduce((prev: any, curr: { quantity: any; }) => prev + curr.quantity, 0);
+      const qty = cartItem.data.reduce(
+        (prev: any, curr: { quantity: any }) => prev + curr.quantity,
+        0
+      );
       setTotalQty(qty);
 
       // Calculate total price with discount
-      const tPrice = cartItem.data.reduce((prev: number, curr: { productId: { price: any; discount: number | undefined; }; quantity: number; }) => {
-        const priceAfterDiscount = pricewithDiscount(
-          curr.productId.price,
-          curr.productId.discount
-        );
-        return prev + priceAfterDiscount * curr.quantity;
-      }, 0);
+      const tPrice = cartItem.data.reduce(
+        (
+          prev: number,
+          curr: {
+            productId: { price: any; discount: number | undefined };
+            quantity: number;
+          }
+        ) => {
+          const priceAfterDiscount = pricewithDiscount(
+            curr?.productId?.price,
+            curr?.productId?.discount
+          );
+          return prev + priceAfterDiscount * curr.quantity;
+        },
+        0
+      );
       setTotalPrice(tPrice);
 
       // Calculate total price without discount
       const notDiscountPrice = cartItem.data.reduce(
-        (prev: number, curr: { productId: { price: number; }; quantity: number; }) => prev + curr.productId.price * curr.quantity,
+        (
+          prev: number,
+          curr: { productId: { price: number }; quantity: number }
+        ) => prev + curr?.productId?.price * curr?.quantity,
         0
       );
       setNotDiscountTotalPrice(notDiscountPrice);
@@ -104,6 +120,8 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
       toast.error(error?.data?.message);
     }
   };
+
+ 
 
   return (
     <GlobalContext.Provider
