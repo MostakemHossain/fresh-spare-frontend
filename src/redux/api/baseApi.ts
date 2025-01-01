@@ -11,7 +11,7 @@ import { RootState } from "../store";
 
 const baseQuery = fetchBaseQuery({
   // baseUrl: "http://localhost:8500/api/v1",
-  baseUrl: "https://fresh-spare-backend.vercel.app",
+  baseUrl: "https://fresh-spare-backend.vercel.app/api/v1",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const state = getState() as RootState;
@@ -34,7 +34,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     //   credentials: "include",
     // });
     const res = await fetch(
-      "https://fresh-spare-backend.vercel.app/auth/refresh-token",
+      "https://fresh-spare-backend.vercel.app/api/v1/auth/refresh-token",
       {
         method: "POST",
         credentials: "include",
