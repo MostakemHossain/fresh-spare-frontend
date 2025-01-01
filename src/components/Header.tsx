@@ -82,7 +82,7 @@ const Header = () => {
                     onClick={() => setOpenUserMenu((prev) => !prev)}
                     className="flex select-none items-center gap-1 cursor-pointer"
                   >
-                    <p>Account</p>
+                    <p>Dashboard</p>
                     {openUserMenu ? (
                       <GoTriangleUp size={25} />
                     ) : (

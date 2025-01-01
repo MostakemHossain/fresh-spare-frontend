@@ -1,4 +1,4 @@
-import Home from "../pages/Home";
+import Profile from "../pages/Profile";
 import Address from "../pages/users/Address";
 import MyOrder from "../pages/users/MyOrder";
 import UserDashboard from "../pages/users/UserDashboard";
@@ -22,6 +22,6 @@ export const userPaths = [
   {
     name: "Profile",
     path: "profile",
-    element: <Home />,
+    element: <Profile />,
   },
 ];

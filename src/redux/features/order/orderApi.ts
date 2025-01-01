@@ -25,6 +25,13 @@ const orderApi = baseApi.injectEndpoints({
       }),
       providesTags: ["order"],
     }),
+    getallOrders: builder.query({
+      query: () => ({
+        url: "/order/get-all-order",
+        method: "GET",
+      }),
+      providesTags: ["order"],
+    }),
   }),
 });
 
@@ -32,4 +39,5 @@ export const {
   useCashOnDeliveryMutation,
   usePaymentsMutation,
   useGetMyOrdersQuery,
+  useGetallOrdersQuery,
 } = orderApi;

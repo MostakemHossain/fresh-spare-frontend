@@ -6,18 +6,15 @@ import { useGetMyOrdersQuery } from "../../redux/features/order/orderApi";
 const MyOrder = () => {
   const { data } = useGetMyOrdersQuery("");
 
-  // State to manage pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10; // Set the number of orders per page
+  const pageSize = 10;
 
-  // Calculate paginated data
   const paginatedData = data?.data.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
 
-  // Total number of orders
-  const totalOrders = data?.data.length || 0;
+  const totalOrders = data?.data?.length || 0;
 
   const columns = [
     {
@@ -75,7 +72,6 @@ const MyOrder = () => {
     createdAt: order.createdAt,
   }));
 
-  // Handle page change
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };

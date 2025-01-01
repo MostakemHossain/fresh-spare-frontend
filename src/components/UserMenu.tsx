@@ -13,6 +13,7 @@ const UserMenu = ({ close }: { close: () => void }) => {
   const navigation = useNavigate();
   const dispatch = useAppDispatch();
   const [logout] = useLogoutMutation();
+  console.log(user.user?.role);
 
   const handleLogout = async () => {
     try {
@@ -39,7 +40,7 @@ const UserMenu = ({ close }: { close: () => void }) => {
           {user?.user?.name}
         </span>
         <Link
-          to={`/dashboard/${user?.user?.role.toLocaleLowerCase()}/profile`}
+          to={`/${user?.user?.role.toLocaleLowerCase()}/dashboard`}
           className="hover:text-primary"
         >
           <HiOutlineExternalLink size={15} />
@@ -47,12 +48,13 @@ const UserMenu = ({ close }: { close: () => void }) => {
       </div>
       <Divider />
       <div className="text-sm grid gap-2">
-        <Link to={"/"} className="px-2 hover:bg-orange-200 py-1">
-          My Orders
+        <Link
+          to={`/${user?.user?.role.toLocaleLowerCase()}/dashboard`}
+          className="px-2 hover:bg-orange-200 py-1"
+        >
+          My Dashboard
         </Link>
-        <Link to={"/"} className="px-2 hover:bg-orange-200 py-1">
-          Save Address
-        </Link>
+
         <button
           onClick={handleLogout}
           className="text-left px-2 hover:bg-orange-200 py-1"
