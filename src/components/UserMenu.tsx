@@ -10,10 +10,9 @@ import Divider from "./Divider";
 
 const UserMenu = ({ close }: { close: () => void }) => {
   const user = useAppSelector((state) => state?.auth);
-  const navigation = useNavigate();
   const dispatch = useAppDispatch();
   const [logout] = useLogoutMutation();
-  console.log(user.user?.role);
+  const navigation = useNavigate();
 
   const handleLogout = async () => {
     try {
