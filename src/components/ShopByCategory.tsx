@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { useNavigate } from "react-router-dom";
 import { useGetAllCategoryQuery } from "../redux/features/category/categoryApi";
 import { useGetAllSubCategoryQuery } from "../redux/features/subCategory/subCategoryApi";
@@ -22,8 +22,7 @@ const ShopByCategory = () => {
   const { data, isLoading } = useGetAllCategoryQuery("");
   const navigate = useNavigate();
 
-  const { data: subCategories } =
-    useGetAllSubCategoryQuery("");
+  const { data: subCategories } = useGetAllSubCategoryQuery("");
 
   const handleRedirectProductListpage = (id: string, cat: string) => {
     // Find subcategory associated with the category ID
@@ -63,8 +62,8 @@ const ShopByCategory = () => {
               >
                 <div>
                   <img
-                    src={cat.image}
-                    alt={cat.name}
+                    src={cat?.image}
+                    alt={cat?.name}
                     className="w-full h-full object-scale-down"
                   />
                 </div>

@@ -36,7 +36,7 @@ const SubCategory = () => {
   const [selectedSubCategory, setSelectedSubCategory] =
     useState<SubCategoryType | null>(null);
   const [pageSize, setPageSize] = useState<number>(
-    parseInt(localStorage.getItem("pageSize") || "5", 5)
+    parseInt(localStorage.getItem("pageSize") || "10", 10)
   );
 
   const [createSubCategory] = useCreateSubCategoryMutation();
