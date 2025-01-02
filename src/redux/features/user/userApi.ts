@@ -25,6 +25,14 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
+    changePassword: builder.mutation({
+      query: (formData) => ({
+        url: "/users/change-password",
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["user"],
+    }),
   }),
 });
 
@@ -32,4 +40,5 @@ export const {
   useGetMyInfoQuery,
   useUploadAvatarMutation,
   useUpdateUserInformationMutation,
+  useChangePasswordMutation
 } = userApi;

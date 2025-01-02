@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Col, Modal, Row, Space, Table } from "antd";
+import { Button, Col, Flex, Modal, Row, Space, Spin, Table } from "antd";
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
@@ -13,7 +13,7 @@ import {
 import EditAddress from "./EditAddress";
 
 const Address = () => {
-  const { data } = useGetAddressQuery("");
+  const { data, isLoading } = useGetAddressQuery("");
   const [openAddress, setOpenAddress] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [editRecord, setEditRecord] = useState<any>(null);
@@ -41,6 +41,16 @@ const Address = () => {
       setDeleteId(null);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Flex align="center" gap="middle">
+          <Spin size="large" />
+        </Flex>
+      </div>
+    );
+  }
 
   const showDeleteModal = (id: string) => {
     setDeleteId(id);

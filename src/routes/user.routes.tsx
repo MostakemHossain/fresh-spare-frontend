@@ -1,3 +1,4 @@
+import ChangePassword from "../pages/ChangePassword";
 import Profile from "../pages/Profile";
 import Address from "../pages/users/Address";
 import MyOrder from "../pages/users/MyOrder";
@@ -23,5 +24,10 @@ export const userPaths = [
     name: "Profile",
     path: "profile",
     element: <Profile />,
+  },
+  {
+    name: "Change Password",
+    path: "change-password",
+    element: <ChangePassword />,
   },
 ];

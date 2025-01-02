@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Image, Pagination, Space, Table, Tag } from "antd";
+import { Flex, Image, Pagination, Space, Spin, Table, Tag } from "antd";
 import { useState } from "react";
 import { useGetMyOrdersQuery } from "../../redux/features/order/orderApi";
 
 const MyOrder = () => {
-  const { data } = useGetMyOrdersQuery("");
+  const { data, isLoading } = useGetMyOrdersQuery("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
@@ -62,6 +62,16 @@ const MyOrder = () => {
       render: (date: string) => new Date(date).toLocaleDateString(),
     },
   ];
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Flex align="center" gap="middle">
+          <Spin size="large" />
+        </Flex>
+      </div>
+    );
+  }
 
   const dataSource = paginatedData?.map((order: any) => ({
     key: order._id,

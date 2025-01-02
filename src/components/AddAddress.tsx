@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Flex, Spin } from "antd";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { IoClose } from "react-icons/io5";
@@ -11,8 +13,10 @@ interface AddAddressProps {
 const AddAddress: React.FC<AddAddressProps> = ({ close }) => {
   const { register, handleSubmit } = useForm();
   const [createAddress] = useCreateAddressMutation();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: any) => {
+    setIsLoading(true);
     try {
       const result = await createAddress(data).unwrap();
       if (result.success) {
@@ -21,6 +25,8 @@ const AddAddress: React.FC<AddAddressProps> = ({ close }) => {
       }
     } catch (error: any) {
       toast.error(error.data.message || "Failed to add address");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -56,9 +62,18 @@ const AddAddress: React.FC<AddAddressProps> = ({ close }) => {
           ))}
           <button
             type="submit"
-            className="bg-green-600 text-white font-semibold py-2 rounded hover:bg-green-700"
+            className="bg-primary font-semibold py-2 rounded hover:bg-primary-light   relative"
+            disabled={isLoading}
           >
-            Submit
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <Flex align="center" gap="middle">
+                  <Spin size="small" />
+                </Flex>
+              </div>
+            ) : (
+              "Submit"
+            )}
           </button>
         </form>
       </div>

@@ -4,6 +4,8 @@ import Orders from "../pages/admin/Orders";
 import Product from "../pages/admin/Product";
 import SubCategory from "../pages/admin/SubCategory";
 import UploadProduct from "../pages/admin/UploadProduct";
+import ChangePassword from "../pages/ChangePassword";
+import Profile from "../pages/Profile";
 
 export const adminPaths = [
   {
@@ -35,5 +37,15 @@ export const adminPaths = [
     name: "Orders",
     path: "orders",
     element: <Orders />,
+  },
+  {
+    name: "Profile",
+    path: "profile",
+    element: <Profile />,
+  },
+  {
+    name: "Change Password",
+    path: "change-password",
+    element: <ChangePassword />,
   },
 ];

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Flex, Modal, Spin } from "antd";
+import { Flex, Modal, Pagination, Spin } from "antd";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaEdit } from "react-icons/fa";
@@ -29,11 +29,18 @@ const Category = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const dispatch = useAppDispatch();
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [paginatedData, setPaginatedData] = useState<any[]>([]);
+
   useEffect(() => {
     if (data && data.data) {
       dispatch(setAllCategory(data.data));
+      const start = (currentPage - 1) * pageSize;
+      const end = start + pageSize;
+      setPaginatedData(data.data.slice(start, end));
     }
-  }, [data, dispatch]);
+  }, [data, dispatch, currentPage, pageSize]);
 
   if (isLoading) {
     return (
@@ -44,6 +51,11 @@ const Category = () => {
       </div>
     );
   }
+
+  const handlePageChange = (page: number, pageSize: number) => {
+    setCurrentPage(page);
+    setPageSize(pageSize);
+  };
 
   const handleUploadCategory = async (values: {
     name: string;
@@ -148,23 +160,25 @@ const Category = () => {
         />
       )}
       <div className="p-4">
-        {data?.data?.length === 0 ? (
+        {paginatedData.length === 0 ? (
           <div className="flex items-center justify-center">
             <img src={noData} alt="nodata" width={500} height={500} />
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-2">
-            {data?.data?.map((category: any) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2">
+            {paginatedData.map((category: any) => (
               <div
                 key={category?._id}
-                className="p-2 flex flex-col items-center"
+                className="p-2 flex flex-col  items-center"
               >
                 <img
                   src={category?.image}
                   alt={category?.name}
                   className="w-40 h-56 rounded-md"
                 />
-                <h3 className="mt-2 font-semibold text-lg">{category?.name}</h3>
+                <h3 className="mt-2 font-semibold text-ellipsis line-clamp-1 text-lg">
+                  {category?.name}
+                </h3>
                 <div className="mt-2 flex space-x-2">
                   <button
                     onClick={() => {
@@ -186,6 +200,15 @@ const Category = () => {
             ))}
           </div>
         )}
+      </div>
+      <div className="flex justify-center mt-4">
+        <Pagination
+          current={currentPage}
+          pageSize={pageSize}
+          total={data?.data?.length || 0}
+          showSizeChanger
+          onChange={handlePageChange}
+        />
       </div>
     </section>
   );

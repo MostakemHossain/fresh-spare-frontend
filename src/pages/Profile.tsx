@@ -53,9 +53,11 @@ const Profile = () => {
 
   if (isLoading) {
     return (
-      <Flex align="center" gap="middle">
-        <Spin size="large" />
-      </Flex>
+      <div className="flex items-center justify-center min-h-screen">
+        <Flex align="center" gap="middle">
+          <Spin size="large" />
+        </Flex>
+      </div>
     );
   }
 
@@ -99,6 +101,31 @@ const Profile = () => {
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">
+            Email
+          </label>
+          <div className="relative">
+            <input
+              type="email"
+              value={data?.data?.email || ""}
+              readOnly
+              className="mt-1 block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm bg-gray-100 text-gray-500 sm:text-sm"
+            />
+            {/* Disabled Icon */}
+            <span className="absolute inset-y-0 right-3 flex items-center text-gray-400">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8zm4-10H8a1 1 0 000 2h8a1 1 0 000-2z" />
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
             Mobile
           </label>
           <input
@@ -115,13 +142,21 @@ const Profile = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`w-full py-2 px-4 rounded-md  ${
+          className={`w-full font-bold py-2 px-4 rounded-md  ${
             isSubmitting
               ? "bg-primary-light cursor-not-allowed"
               : "bg-primary hover:bg-primary-dark"
           }`}
         >
-          {isSubmitting ? "Saving..." : "Save Changes"}
+          {isSubmitting ? (
+            <div className="flex items-center justify-center">
+              <Flex align="center" gap="middle">
+                <Spin size="small" />
+              </Flex>
+            </div>
+          ) : (
+            "Save Changes"
+          )}
         </button>
       </form>
     </div>

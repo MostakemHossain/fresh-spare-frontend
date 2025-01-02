@@ -35,6 +35,10 @@ const SubCategory = () => {
   const [openUpdateSubCategory, setOpenUpdateSubCategory] = useState(false);
   const [selectedSubCategory, setSelectedSubCategory] =
     useState<SubCategoryType | null>(null);
+  const [pageSize, setPageSize] = useState<number>(
+    parseInt(localStorage.getItem("pageSize") || "5", 5)
+  );
+
   const [createSubCategory] = useCreateSubCategoryMutation();
   const { data, isLoading } = useGetAllSubCategoryQuery("");
   const [deleteSubCategory] = useDeleteSubCategoryMutation();
@@ -100,18 +104,22 @@ const SubCategory = () => {
       onOk: async () => {
         try {
           const res = await deleteSubCategory(id).unwrap();
-          console.log(res);
           if (res.success) {
             message.success("SubCategory deleted successfully");
           }
         } catch (error: any) {
-          message.error(error.data.message);
+          message.error(error?.data?.message);
         }
       },
       onCancel: () => {
         console.log("Delete action canceled");
       },
     });
+  };
+
+  const handlePageSizeChange = (current: number, size: number) => {
+    setPageSize(size);
+    localStorage.setItem("pageSize", size.toString());
   };
 
   if (isLoading) {
@@ -172,9 +180,9 @@ const SubCategory = () => {
     },
   ];
 
-  const dataSource = data?.data.map((item: SubCategoryType, index: number) => ({
+  const dataSource = data?.data.map((item: SubCategoryType) => ({
     ...item,
-    key: index,
+    key: item._id,
   }));
 
   return (
@@ -194,7 +202,12 @@ const SubCategory = () => {
       <Table
         columns={columns}
         dataSource={dataSource}
-        pagination={{ pageSize: 5 }}
+        pagination={{
+          pageSize: pageSize,
+          showSizeChanger: true,
+          pageSizeOptions: ["5", "10", "20", "50"],
+          onShowSizeChange: handlePageSizeChange,
+        }}
         className="mt-4"
         scroll={{ x: "max-content" }}
       />

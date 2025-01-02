@@ -5,9 +5,9 @@ import { useGetallOrdersQuery } from "../../redux/features/order/orderApi";
 
 const Order = () => {
   const { data } = useGetallOrdersQuery("");
-  
+
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState(5); 
 
   const paginatedData = data?.data.slice(
     (currentPage - 1) * pageSize,
@@ -72,8 +72,9 @@ const Order = () => {
     createdAt: order.createdAt,
   }));
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = (page: number, pageSize: number) => {
     setCurrentPage(page);
+    setPageSize(pageSize); // Update page size when changed
   };
 
   return (
@@ -92,6 +93,8 @@ const Order = () => {
         pageSize={pageSize}
         total={totalOrders}
         onChange={handlePageChange}
+        showSizeChanger
+        pageSizeOptions={["5", "10", "20", "50"]}
         showTotal={(total) => `Total ${total} orders`}
         style={{ marginTop: 20, textAlign: "center" }}
       />

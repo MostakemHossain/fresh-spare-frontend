@@ -72,7 +72,7 @@ const Product = () => {
 
       <div className="p-4 bg-blue-50">
         <div className="min-h-[55vh]">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {data?.data?.data.map((p: { id: any; name?: string; unit?: string; image?: string[]; }) => (
                                     //@ts-ignore
               <ProductCard key={p.id} data={p} />
