@@ -117,7 +117,7 @@ const SubCategory = () => {
     });
   };
 
-  const handlePageSizeChange = (current: number, size: number) => {
+  const handlePageSizeChange = (_current: number, size: number) => {
     setPageSize(size);
     localStorage.setItem("pageSize", size.toString());
   };
