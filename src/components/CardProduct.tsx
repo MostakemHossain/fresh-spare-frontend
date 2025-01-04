@@ -20,15 +20,15 @@ const CardProduct = ({ data }: { data: any }) => {
         />
       </div>
       <div className="flex justify-end">
-        {data?.discount > 0 && (
-          <div className="flex ">
-            {Boolean(data?.discount) && (
-              <p className=" bg-green-300 font-bold px-2 py-2 w-fit text-xs rounded-full">
-                {data?.discount} % discount
-              </p>
-            )}
-          </div>
-        )}
+        <div className="flex ">
+          {Boolean(data?.discount) && (
+            <p className=" bg-green-300 font-bold px-2 py-2 w-fit text-xs rounded-full">
+              {data?.discount >= 0
+                ? `${data.discount} % discount`
+                : "0 % discount"}
+            </p>
+          )}
+        </div>
       </div>
       <div className="font-medium text-ellipsis line-clamp-2">{data?.name}</div>
       <div className="w-fit px-2 lg:px-0 text-sm lg:text-base font-bold">
