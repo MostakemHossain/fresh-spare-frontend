@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Flex, Spin } from "antd";
 import { useRef, useState } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { useParams } from "react-router-dom";
@@ -21,7 +22,14 @@ const ProductDisplayPage = () => {
 
   const { data, isLoading } = useGetProductDetailsQuery(productId);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Flex align="center" gap="middle">
+          <Spin size="large" />
+        </Flex>
+      </div>
+    );
 
   const productImages = data?.data?.image || [];
 
@@ -119,7 +127,6 @@ const ProductDisplayPage = () => {
           </div>
           {/* Product Details */}
           <div className="p-4 lg:pl-7 text-base lg:text-lg">
-            
             <h2 className="text-lg font-semibold lg:text-3xl">
               {data?.data?.name}
             </h2>

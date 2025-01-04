@@ -1,3 +1,5 @@
+import { Flex, Spin } from "antd";
+
 const Loading = () => {
   return (
     <div className="flex justify-center items-center">
@@ -18,7 +20,13 @@ const Loading = () => {
             fill="currentFill"
           />
         </svg>
-        <span className="sr-only">Loading...</span>
+        <span className="sr-only">
+          <div className="flex items-center justify-center min-h-screen">
+            <Flex align="center" gap="middle">
+              <Spin size="large" />
+            </Flex>
+          </div>
+        </span>
       </div>
     </div>
   );
