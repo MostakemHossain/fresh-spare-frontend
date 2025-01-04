@@ -166,24 +166,27 @@ const Footer: React.FC = () => {
             </ul>
           </div>
 
-          
           <div className="lg:col-span-3 md:col-span-2">
             <h3 className="text-lg font-semibold mb-6">Newsletter</h3>
             <p className="text-black font-medium mb-4">
               Get instant updates about our new products and special promos!
             </p>
-            <form className="flex gap-2 mb-6">
-              <input
-                type="email"
-                placeholder="Enter your email here..."
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
-              />
-              <button
-                type="submit"
-                className="px-2 py-2 bg-green-700  rounded-md hover:bg-green-700 focus:outline-none  focus:ring-2 text-white font-semibold  focus:ring-offset-2"
-              >
-                Subscribe
-              </button>
+            <form className="flex flex-col gap-2 mb-6">
+              <div className="w-full">
+                <input
+                  type="email"
+                  placeholder="Enter your email here..."
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+                />
+              </div>
+              <div className="w-full">
+                <button
+                  type="submit"
+                  className="w-full px-4 py-2 bg-green-700 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 text-white font-semibold"
+                >
+                  Subscribe
+                </button>
+              </div>
             </form>
           </div>
         </div>
@@ -191,7 +194,6 @@ const Footer: React.FC = () => {
         {/* Bottom Section */}
         <div className="mt-8 pt-4 border-t border-gray-200">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3 items-center">
-          
             <div className="flex gap-4">
               <a href="#" className="text-gray-400 hover:text-green-700">
                 <FaFacebookF className="h-6 w-6" />
