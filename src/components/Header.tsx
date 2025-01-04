@@ -27,12 +27,14 @@ const Header = () => {
   dispatch(addCartItem(data?.data));
   const cartItem = useAppSelector((state) => state.cart.cart);
   const [openCartSection, setOpenCartSection] = useState(false);
+  const [openMobileUserMenu, setOpenMobileUserMenu] = useState(false);
 
   const redirectToLoginPage = () => {
     navigate("/auth");
   };
   const handleCloseUserMenu = () => {
     setOpenUserMenu(false);
+    setOpenMobileUserMenu(false);
   };
 
   const handleMobileUser = () => {
@@ -40,11 +42,11 @@ const Header = () => {
       navigate("/auth");
       return;
     }
-    navigate("/user");
+    setOpenMobileUserMenu((prev) => !prev);
   };
 
   return (
-    <div className="h-24 lg:h-22  bg-white z-40 lg:shadow-md sticky top-0 flex flex-col justify-center gap-1">
+    <div className="h-24 lg:h-22 bg-white z-40 lg:shadow-md sticky top-0 flex flex-col justify-center gap-1">
       {!(isMobile && isSearchPage) && (
         <div className="container flex mx-auto items-center px-3 justify-between">
           <div className="h-full">
@@ -72,9 +74,18 @@ const Header = () => {
           {/* login  */}
           <div className="">
             {/* mobile  */}
-            <button className="text-neutral-600 lg:hidden">
-              <FaRegCircleUser onClick={handleMobileUser} size={30} />
-            </button>
+            <div className="relative lg:hidden">
+              <button className="text-neutral-600">
+                <FaRegCircleUser onClick={handleMobileUser} size={30} />
+              </button>
+              {openMobileUserMenu && (
+                <div className="absolute right-0 top-12 z-50">
+                  <div className="bg-white rounded p-4 min-w-52 shadow-lg">
+                    <UserMenu close={handleCloseUserMenu} />
+                  </div>
+                </div>
+              )}
+            </div>
             <div className="hidden lg:flex items-center gap-10">
               {user?.id ? (
                 <div className="relative">
@@ -82,7 +93,7 @@ const Header = () => {
                     onClick={() => setOpenUserMenu((prev) => !prev)}
                     className="flex select-none items-center gap-1 cursor-pointer"
                   >
-                    <p>Dashboard</p>
+                    <p className="font-semibold">Dashboard</p>
                     {openUserMenu ? (
                       <GoTriangleUp size={25} />
                     ) : (
@@ -108,16 +119,23 @@ const Header = () => {
 
               <button
                 onClick={() => setOpenCartSection(true)}
-                className="flex items-center gap-2 bg-green-800 hover:bg-green-700 px-3 py-3 rounded text-white"
+                className="relative flex items-center gap-2 bg-green-700 hover:bg-green-800 px-3 py-3 rounded text-white"
               >
-                <div className="animate-bounce">
+                <div
+                  className={`relative ${
+                    cartItem && cartItem[0] ? "animate-bounce" : ""
+                  }`}
+                >
                   <BsCart4 size={26} />
+                  {totalQty > 0 && (
+                    <span className="absolute -top-1 -right-2 bg-red-600 text-white text-xs font-semibold rounded-full px-2">
+                      {totalQty}
+                    </span>
+                  )}
                 </div>
                 <div className="font-semibold text-sm">
                   {cartItem && cartItem[0] ? (
                     <div>
-                      {" "}
-                      <p>{totalQty} Items</p>
                       <p>{DisplayPriceInDollar(totalPrice)}</p>
                     </div>
                   ) : (

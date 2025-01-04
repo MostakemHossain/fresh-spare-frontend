@@ -122,7 +122,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ data }) => {
       ) : (
         <button
           onClick={handleAddToCart}
-          className="bg-green-600 hover:bg-green-700 text-white px-2 lg:px-4 py-1 rounded"
+          className="bg-green-700 hover:bg-green-800 font-bold text-white px-2 lg:px-4 py-1 rounded"
         >
           {loading ? <Loading /> : "Add"}
         </button>

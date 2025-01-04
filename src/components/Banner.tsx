@@ -1,10 +1,12 @@
-import banner from "../assets/images/banner (1).jpg";
+import { Link } from "react-router-dom";
 import bannerMobile from "../assets/images/bann.avif";
+import banner from "../assets/images/banner (1).jpg";
 const Banner = () => {
   return (
     <div className="container mx-auto">
-      <div
-        className={`w-full h-full min-h-48 bg-blue-100 rounded ${
+      <Link
+        to={"/search"}
+        className={`w-full h-full min-h-48 rounded ${
           !banner && "animate-pulse my-2"
         } `}
       >
@@ -18,7 +20,7 @@ const Banner = () => {
           className="w-full h-full lg:hidden"
           alt="banner"
         />
-      </div>
+      </Link>
     </div>
   );
 };

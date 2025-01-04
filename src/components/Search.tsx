@@ -19,23 +19,23 @@ const Search = () => {
     navigate("/search");
   };
 
-  const hanadleOnChange = (e: { target: { value: any; }; }) => {
+  const hanadleOnChange = (e: { target: { value: any } }) => {
     const value = e.target.value;
     const url = `/search?q=${value}`;
     navigate(url);
   };
   return (
-    <div className="w-full min-w-[300px] group lg:min-w-[420px] h-11 lg:h-12 rounded-lg border overflow-hidden flex items-center text-neutral-500 bg-slate-50 focus-within:border-primary">
+    <div className="w-full min-w-[300px] group lg:min-w-[420px] h-11 lg:h-12 rounded-lg border overflow-hidden flex items-center  bg-slate-50 focus-within:border-green-300 focus-within:font-medium">
       <div>
         {isMobile && isSearchPage ? (
           <Link
             to="/"
-            className="flex cursor-pointer justify-center group-focus-within:text-primary items-center h-full p-3 bg-white rounded-full shadow-md"
+            className="flex cursor-pointer justify-center group-focus-within:text-green-400 items-center h-full p-3 bg-white rounded-full shadow-md"
           >
             <FaArrowLeft size={22} />
           </Link>
         ) : (
-          <button className="flex justify-center group-focus-within:text-primary items-center h-full p-3">
+          <button className="flex justify-center group-focus-within:text-green-500 items-center h-full p-3">
             <IoSearch size={22} />
           </button>
         )}

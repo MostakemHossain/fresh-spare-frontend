@@ -119,17 +119,17 @@ const ProductDisplayPage = () => {
           </div>
           {/* Product Details */}
           <div className="p-4 lg:pl-7 text-base lg:text-lg">
-            <p className="bg-green-300 w-fit px-2 rounded-full">10 Min</p>
+            
             <h2 className="text-lg font-semibold lg:text-3xl">
               {data?.data?.name}
             </h2>
             <p>{data?.data?.unit}</p>
             <Divider />
             <div>
-              <p>Price</p>
+              <p className="font-semibold lg:mb-2">Price</p>
               <div className="flex items-center gap-2 lg:gap-4">
                 <div className="border border-green-600 px-4 py-2 rounded bg-green-50 w-fit">
-                  <p className="font-semibold text-lg lg:text-xl">
+                  <p className="font-semibold text-red-500 text-lg lg:text-xl">
                     {DisplayPriceInDollar(
                       pricewithDiscount(data?.data?.price, data?.data?.discount)
                     )}
@@ -137,7 +137,7 @@ const ProductDisplayPage = () => {
                 </div>
                 {data?.data?.discount && (
                   <>
-                    <p className="line-through">
+                    <p className="line-through decoration-red-500">
                       {DisplayPriceInDollar(data?.data?.price)}
                     </p>
                     <p className="font-bold text-green-600 lg:text-2xl">

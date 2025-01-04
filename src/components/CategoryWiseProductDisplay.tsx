@@ -65,7 +65,7 @@ const CategoryWiseProductDisplay: React.FC<CategoryWiseProductDisplayProps> = ({
         <h1 className="font-semibold">{name}</h1>
         <Link
           to={redirectURL || "#"}
-          className="text-green-600 hover:text-green-400"
+          className="border border-green-700 text-green-700 hover:bg-green-700 hover:text-white font-semibold px-2 lg:px-4 py-1 rounded"
         >
           See All
         </Link>

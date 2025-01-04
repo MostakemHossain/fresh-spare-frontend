@@ -49,14 +49,14 @@ const UserMenu = ({ close }: { close: () => void }) => {
       <div className="text-sm grid gap-2">
         <Link
           to={`/${user?.user?.role.toLocaleLowerCase()}/dashboard`}
-          className="px-2 hover:bg-orange-200 py-1"
+          className="px-2 hover:bg-green-400 py-1 hover:text-black"
         >
           My Dashboard
         </Link>
 
         <button
           onClick={handleLogout}
-          className="text-left px-2 hover:bg-orange-200 py-1"
+          className="text-left px-2 hover:bg-green-400 py-1 hover:text-black"
         >
           Logout
         </button>

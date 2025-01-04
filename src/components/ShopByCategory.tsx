@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useGetAllCategoryQuery } from "../redux/features/category/categoryApi";
 import { useGetAllSubCategoryQuery } from "../redux/features/subCategory/subCategoryApi";
@@ -25,7 +26,6 @@ const ShopByCategory = () => {
   const { data: subCategories } = useGetAllSubCategoryQuery("");
 
   const handleRedirectProductListpage = (id: string, cat: string) => {
-    // Find subcategory associated with the category ID
     const subcategory = subCategories?.data?.find((sub: SubCategory) => {
       const filterData = sub.category.some((c) => c._id === id);
       return filterData || null;
@@ -37,13 +37,13 @@ const ShopByCategory = () => {
       )}-${subcategory._id}`;
       navigate(url);
     } else {
-      console.error("Subcategory not found for the provided category ID");
+      toast.error("Subcategory not found for the provided category ID");
     }
   };
 
   return (
     <div>
-      <div className="container mx-auto px-4 my-2 grid grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-2">
+      <div className="container mt-6 mb-10 cursor-pointer mx-auto px-4 my-2 grid grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-2">
         {isLoading
           ? new Array(12).fill(null).map((_, index) => (
               <div

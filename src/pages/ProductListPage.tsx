@@ -110,7 +110,7 @@ const ProductListPage = () => {
                 <Link
                   to={link}
                   key={`subcategory-${index}`}
-                  className={`w-full p-2 lg:flex items-center lg:w-full lg:h-16 box-border lg:gap-4 border-b 
+                  className={`w-full p-2 mt-5 lg:flex items-center lg:w-full lg:h-16 box-border lg:gap-4 border-b 
                   hover:bg-green-100 cursor-pointer ${
                     subCategoryId === s._id ? "bg-green-100" : ""
                   }`}
@@ -122,7 +122,7 @@ const ProductListPage = () => {
                       className="w-14 lg:h-14 lg:w-12 h-full object-scale-down"
                     />
                   </div>
-                  <p className="-mt-6 lg:mt-0 text-xs text-center lg:text-left lg:text-base">
+                  <p className="-mt-6 font-medium lg:mt-0 text-xs text-center lg:text-left lg:text-base">
                     {s.name}
                   </p>
                 </Link>

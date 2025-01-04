@@ -10,7 +10,7 @@ import logo from "../assets/images/logo.png";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="w-full bg-white pt-16 pb-8">
+    <footer className="w-full bg-white pt-16 pb-8 mt-28">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-12">
           {/* Company Info */}
@@ -22,23 +22,26 @@ const Footer: React.FC = () => {
               </p>
             </a>
 
-            <p className="text-gray-600 mb-4">
+            <p className="text-black font-semibold mb-4">
               71 Pilgrim Avenue Chevy Chase,
               <br />
               east california.
             </p>
             <div className="space-y-2">
-              <p className="text-gray-600">
+              <p className="text-black font-semibold">
                 <span className="font-semibold">Call Us: </span>
-                <a href="tel:+44 0123 456 789" className="hover:text-blue-600">
+                <a
+                  href="tel:+44 0123 456 789"
+                  className="hover:text-green-700 font-medium"
+                >
                   +44 0123 456 789
                 </a>
               </p>
-              <p className="text-gray-600">
+              <p className="text-black ">
                 <span className="font-semibold">Email: </span>
                 <a
                   href="mailto:example@ec-email.com"
-                  className="hover:text-blue-600"
+                  className="hover:text-green-700 font-medium"
                 >
                   freshspare@gmail.com
                 </a>
@@ -51,19 +54,25 @@ const Footer: React.FC = () => {
             <h3 className="text-lg font-semibold mb-6">Information</h3>
             <ul className="space-y-4">
               <li>
-                <a href="/about" className="text-gray-600 hover:text-blue-600">
+                <a
+                  href="/about"
+                  className="text-black font-medium hover:text-green-700"
+                >
                   About us
                 </a>
               </li>
               <li>
-                <a href="/faq" className="text-gray-600 hover:text-blue-600">
+                <a
+                  href="/faq"
+                  className="text-black font-medium hover:text-green-700"
+                >
                   FAQ
                 </a>
               </li>
               <li>
                 <a
                   href="/delivery"
-                  className="text-gray-600 hover:text-blue-600"
+                  className="text-black font-medium hover:text-green-700"
                 >
                   Delivery Information
                 </a>
@@ -71,7 +80,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/contact"
-                  className="text-gray-600 hover:text-blue-600"
+                  className="text-black font-medium hover:text-green-700"
                 >
                   Contact us
                 </a>
@@ -81,25 +90,28 @@ const Footer: React.FC = () => {
 
           {/* Account */}
           <div className="lg:col-span-2 md:col-span-1">
-            <h3 className="text-lg font-semibold mb-6">Account</h3>
+            <h3 className="text-lg font-medium mb-6">Account</h3>
             <ul className="space-y-4">
               <li>
                 <a
                   href="/account"
-                  className="text-gray-600 hover:text-blue-600"
+                  className="text-black font-medium hover:text-green-700"
                 >
                   My Account
                 </a>
               </li>
               <li>
-                <a href="/orders" className="text-gray-600 hover:text-blue-600">
+                <a
+                  href="/orders"
+                  className="text-black font-medium hover:text-green-700"
+                >
                   Order History
                 </a>
               </li>
               <li>
                 <a
                   href="/wishlist"
-                  className="text-gray-600 hover:text-blue-600"
+                  className="text-black font-medium hover:text-green-700"
                 >
                   Wish List
                 </a>
@@ -107,7 +119,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/specials"
-                  className="text-gray-600 hover:text-blue-600"
+                  className="text-black font-medium hover:text-green-700"
                 >
                   Specials
                 </a>
@@ -117,25 +129,28 @@ const Footer: React.FC = () => {
 
           {/* Services */}
           <div className="lg:col-span-2 md:col-span-1">
-            <h3 className="text-lg font-semibold mb-6">Services</h3>
+            <h3 className="text-lg font-medium mb-6">Services</h3>
             <ul className="space-y-4">
               <li>
                 <a
                   href="/returns"
-                  className="text-gray-600 hover:text-blue-600"
+                  className="text-black font-medium hover:text-green-700"
                 >
                   Discount Returns
                 </a>
               </li>
               <li>
-                <a href="/policy" className="text-gray-600 hover:text-blue-600">
+                <a
+                  href="/policy"
+                  className="text-black font-medium hover:text-green-700"
+                >
                   Policy & policy
                 </a>
               </li>
               <li>
                 <a
                   href="/customer-service"
-                  className="text-gray-600 hover:text-blue-600"
+                  className="text-black font-medium hover:text-green-700"
                 >
                   Customer Service
                 </a>
@@ -143,7 +158,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/term-condition"
-                  className="text-gray-600 hover:text-blue-600"
+                  className="text-black font-medium hover:text-green-700"
                 >
                   Term & condition
                 </a>
@@ -151,21 +166,21 @@ const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Newsletter */}
+          
           <div className="lg:col-span-3 md:col-span-2">
             <h3 className="text-lg font-semibold mb-6">Newsletter</h3>
-            <p className="text-gray-600 mb-4">
+            <p className="text-black font-medium mb-4">
               Get instant updates about our new products and special promos!
             </p>
             <form className="flex gap-2 mb-6">
               <input
                 type="email"
                 placeholder="Enter your email here..."
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
               />
               <button
                 type="submit"
-                className="px-2 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="px-2 py-2 bg-green-700  rounded-md hover:bg-green-700 focus:outline-none  focus:ring-2 text-white font-semibold  focus:ring-offset-2"
               >
                 Subscribe
               </button>
@@ -174,32 +189,30 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-16 pt-8 border-t border-gray-200">
+        <div className="mt-8 pt-4 border-t border-gray-200">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3 items-center">
-            {/* Social Links */}
+          
             <div className="flex gap-4">
-              <a href="#" className="text-gray-400 hover:text-blue-600">
+              <a href="#" className="text-gray-400 hover:text-green-700">
                 <FaFacebookF className="h-6 w-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-600">
+              <a href="#" className="text-gray-400 hover:text-green-700">
                 <FaTwitter className="h-6 w-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-600">
+              <a href="#" className="text-gray-400 hover:text-green-700">
                 <FaInstagram className="h-6 w-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-600">
+              <a href="#" className="text-gray-400 hover:text-green-700">
                 <FaLinkedinIn className="h-6 w-6" />
               </a>
             </div>
 
             {/* Copyright */}
-            <div className="text-center ">
+            <div className="text-center font-medium">
               <p>
                 Copyright © {new Date().getFullYear()}{" "}
                 <span className="!font-bold">
-             
-                FRESH <span className="text-pink-500">SPARE</span>
-            
+                  FRESH <span className="text-pink-500">SPARE</span>
                 </span>
                 . All Rights Reserved
               </p>
