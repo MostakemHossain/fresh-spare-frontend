@@ -13,7 +13,6 @@ const UserProfileAvatarUpload = ({ close }: { close: () => void }) => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log(file);
     if (file) {
       setSelectedFile(file);
       setPreview(URL.createObjectURL(file));
@@ -28,6 +27,7 @@ const UserProfileAvatarUpload = ({ close }: { close: () => void }) => {
 
     const formData = new FormData();
     formData.append("file", selectedFile);
+    console.log(selectedFile);
 
     try {
       const res = await uploadAvatar(formData).unwrap();
