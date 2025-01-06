@@ -33,6 +33,14 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
+    googleUserLogin: builder.mutation({
+      query: (formData) => ({
+        url: "/users/google-login",
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["user"],
+    }),
   }),
 });
 
@@ -40,5 +48,6 @@ export const {
   useGetMyInfoQuery,
   useUploadAvatarMutation,
   useUpdateUserInformationMutation,
-  useChangePasswordMutation
+  useChangePasswordMutation,
+  useGoogleUserLoginMutation,
 } = userApi;

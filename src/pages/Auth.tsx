@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signInWithPopup } from "firebase/auth";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -12,7 +13,9 @@ import {
   useRegisterAUserMutation,
 } from "../redux/features/auth/authApi";
 import { setUser } from "../redux/features/auth/authSlice";
+import { useGoogleUserLoginMutation } from "../redux/features/user/userApi";
 import { useAppDispatch } from "../redux/hooks";
+import { auths, googleProvider } from "../utils/firebaseConfig";
 import { verifyToken } from "../utils/verifyToken";
 
 const loginSchema = z.object({
@@ -33,10 +36,12 @@ export default function AuthLayout() {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const navigate = useNavigate();
   const [login] = useLoginMutation();
   const dispatch = useAppDispatch();
   const [registerAUser] = useRegisterAUserMutation();
+  const [googleUserLogin] = useGoogleUserLoginMutation();
 
   const {
     register: loginRegister,
@@ -106,6 +111,26 @@ export default function AuthLayout() {
       toast.error(error.data.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setGoogleLoading(true);
+    try {
+      const result = await signInWithPopup(auths, googleProvider);
+      const formData = result.user;
+      const res = await googleUserLogin(formData).unwrap();
+      const user = await verifyToken(res?.data?.accessToken);
+      console.log(user);
+      toast.success("Login successfully");
+      dispatch(setUser({ user: user, token: res?.data?.accessToken }));
+      navigate("/");
+    } catch (error: any) {
+      toast.error(`Google sign-in failed: ${error.message}`, {
+        className: "custom-toast",
+      });
+    } finally {
+      setGoogleLoading(false);
     }
   };
 
@@ -264,10 +289,18 @@ export default function AuthLayout() {
 
           <div className="flex flex-col items-center mt-4 gap-2">
             <button
+              onClick={handleGoogleLogin}
               type="button"
               className="flex items-center justify-center w-full rounded-lg bg-indigo-600 text-white px-4 py-2 text-sm font-semibold focus:outline-none"
+              disabled={googleLoading} 
             >
-              <FaGoogle className="mr-2" /> Sign in with Google
+              {googleLoading ? (
+                <p>Loading...</p>
+              ) : (
+                <>
+                  <FaGoogle className="mr-2" /> Sign in with Google
+                </>
+              )}
             </button>
             <p className="text-sm">or</p>
             <div className="flex gap-4 justify-center">
