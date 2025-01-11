@@ -16,18 +16,20 @@ const MainLayout = () => {
   const user = useAppSelector((state) => state?.auth);
   const navigation = useNavigate();
   const dispatch = useAppDispatch();
-  console.log(user);
+
   const handleLogout = async () => {
     try {
       const res = await logout(user?.token).unwrap();
-      if (res.success) {
-        close();
+      console.log(res);
+      if (res?.success) {
         toast.success("Logout successfully");
+
         dispatch(setLogout());
         dispatch(addCartItem([]));
         localStorage.clear();
-        navigation("/");
+
         window.location.reload();
+        navigation("/");
       }
     } catch (error: any) {
       toast.error(error.data.message);

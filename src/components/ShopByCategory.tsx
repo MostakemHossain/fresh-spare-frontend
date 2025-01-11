@@ -45,7 +45,7 @@ const ShopByCategory = () => {
     <div>
       <div className="container mt-6 mb-10 cursor-pointer mx-auto px-4 my-2 grid grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-2">
         {isLoading
-          ? new Array(12).fill(null).map((_, index) => (
+          ? new Array(20).fill(null).map((_, index) => (
               <div
                 key={index + "loadingcategory"}
                 className="bg-white rounded p-4 min-h-36 grid gap-2 shadow animate-pulse"

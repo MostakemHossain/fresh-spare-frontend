@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Spin } from "antd";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useLocation } from "react-router-dom";
@@ -73,13 +74,19 @@ const SearchPage = () => {
   return (
     <section className="bg-white">
       <div className="container mx-auto p-4">
-        <p className="font-semibold ml-2 lg:ml-0">Search Results: {data?.length}</p>
+        <p className="font-semibold ml-2 lg:ml-0">
+          Search Results: {data?.length}
+        </p>
 
         <InfiniteScroll
           dataLength={data?.length}
           next={handleFetchMore}
           hasMore={hasMore}
-          loader={<h4></h4>}
+          loader={
+            <h4 className="text-center mt-4">
+              <Spin className="text-center" size="small" />
+            </h4>
+          }
           endMessage={
             <p className="text-center font-semibold py-4">No more results.</p>
           }
